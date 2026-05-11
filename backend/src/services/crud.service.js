@@ -1,0 +1,21 @@
+import sql from "mssql";
+import { pool } from "../db/db.js";
+
+export const insertarProducto = async ({ nombre, precio }) => {
+  const result = await pool
+    .request()
+    .input("nombre", sql.VarChar, nombre)
+    .input("precio", sql.Int, precio).query(`
+      INSERT INTO Productos (nombre, precio)
+      VALUES (@nombre, @precio);
+    `);
+  return result;
+};
+
+export const eliminarProducto = async ({ id }) => {
+  const result = await pool.request().input("id", sql.Int, id)
+    .query(`DELETE FROM Productos
+      WHERE id = @id;`);
+
+      return result
+};

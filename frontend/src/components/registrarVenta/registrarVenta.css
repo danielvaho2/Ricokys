@@ -1,0 +1,238 @@
+.registrar {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.registrar__metodos {
+  display: flex;
+  gap: 8px;
+}
+
+.registrar__metodo {
+  flex: 1;
+  padding: 10px;
+  border: 0.5px solid #ccc;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  text-transform: capitalize;
+  color: var(--color-text-primary);
+  transition: all 0.2s;
+}
+
+.registrar__metodo--activo {
+  border-color: #1d9e75;
+  background-color: #edfaf5;
+  color: #1d9e75;
+  font-weight: 500;
+}
+
+.registrar__btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #1d9e75;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.registrar__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.registrar__btn:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.registrar__error {
+  color: var(--color-text-danger);
+  font-size: 13px;
+  text-align: center;
+  margin: 0;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: var(--color-background-primary);
+  border-radius: 16px;
+  border: 0.5px solid var(--color-border-tertiary);
+  padding: 28px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  background-color: rgb(199, 199, 199);
+}
+
+.modal__check {
+  width: 48px;
+  height: 48px;
+  background: #1d9e75;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin: 0 auto;
+}
+
+.modal__titulo {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.modal__detalle {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 0.5px solid var(--color-border-tertiary);
+  padding-top: 10px;
+}
+
+.modal__item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+
+.modal__total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  font-size: 20px;
+  border-top: 0.5px solid var(--color-border-tertiary);
+  padding-top: 10px;
+  color: var(--color-text-primary);
+}
+
+.modal__metodo {
+  text-align: center;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  text-transform: capitalize;
+}
+
+.modal__efectivo {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-top: 0.5px solid var(--color-border-tertiary);
+  padding-top: 12px;
+}
+
+.modal__label {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+}
+
+.modal__input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  box-sizing: border-box;
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  transition: border-color 0.15s;
+}
+
+.modal__input:focus {
+  border-color: #1d9e75;
+}
+
+.modal__cambio {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: 500;
+  color: #9e1d1d;
+  padding: 4px 0;
+}
+
+.modal__insuficiente {
+  font-size: 13px;
+  color: var(--color-text-danger);
+  margin: 0;
+}
+
+.modal__botones {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.modal__btn--cancelar {
+  flex: 1;
+  padding: 12px;
+  background: transparent;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: border-color 0.15s;
+}
+
+.modal__btn--cancelar:hover {
+  border-color: var(--color-border-primary);
+}
+
+.modal__btn {
+  flex: 1;
+  padding: 12px;
+  background: #1d9e75;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.modal__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.modal__btn:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.contenedor-noturno {
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #854F0B;
+  background-color: #FAEEDA;
+  border: 0.5px solid #EF9F27;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 8px 12px;
+}
+

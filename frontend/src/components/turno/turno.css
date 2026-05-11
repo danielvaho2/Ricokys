@@ -1,0 +1,65 @@
+.turno {
+  padding: 2rem;
+}
+
+.turno__btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.turno__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.turno__btn--abrir {
+  background-color: #1d9e75;
+  color: white;
+}
+
+.turno__btn--abrir:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.turno__btn--cerrar {
+  background-color: #c0392b;
+  color: white;
+}
+
+.turno__btn--cerrar:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.turno__confirmar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+}
+
+.turno__confirmar-texto {
+  font-size: 14px;
+  text-align: center;
+  margin: 0;
+}
+
+.turno__confirmar-botones {
+  display: flex;
+  gap: 8px;
+}
+
+.turno__btn--cancelar {
+  background-color: #ccc;
+  color: #333;
+  flex: 1;
+}
+
+.turno__btn--cancelar:hover {
+  opacity: 0.85;
+}
