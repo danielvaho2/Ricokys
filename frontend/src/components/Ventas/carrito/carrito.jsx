@@ -1,10 +1,5 @@
 import "./carrito.css";
-const formatCOP = (value) =>
-  new Intl.NumberFormat("es-CO", {
-    style: "currency",
-    currency: "COP",
-    maximumFractionDigits: 0,
-  }).format(value);
+import {formatCOP} from '../../../hooks/fromatCOP.js'
 function Carrito({
   carrito = [],
   eliminarDelCarrito,

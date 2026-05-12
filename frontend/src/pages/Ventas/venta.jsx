@@ -1,8 +1,8 @@
 import "./venta.css";
-import { useProductos } from "../../hooks/useProductos";
-import { useCarrito } from "../../hooks/useCarrito";
-import { useTurno } from "../../hooks/useTurno";
-import { useRegistrarVenta } from "../../hooks/useRegistrarVenta";
+import { useProductos } from "../../hooks/ventas/useProductos";
+import { useCarrito } from "../../hooks/ventas/useCarrito";
+import { useTurno } from "../../hooks/ventas/useTurno";
+import { useRegistrarVenta } from "../../hooks/ventas/useRegistrarVenta";
 import Productos from "../../components/Ventas/productos/productos";
 import Carrito from "../../components/Ventas/carrito/carrito";
 import Turno from "../../components/Ventas/turno/turno";

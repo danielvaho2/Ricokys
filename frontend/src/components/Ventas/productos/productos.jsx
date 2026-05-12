@@ -1,12 +1,6 @@
 import "./productos.css";
 
-const formatCOP = (value) =>
-  new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
-    maximumFractionDigits: 0,
-  }).format(value);
-
+import {formatCOP} from '../../../hooks/fromatCOP.js'
 function Productos({ productos = [], agregarAlCarrito, loading = false, }) {
     if (loading) {
     return (

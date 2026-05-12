@@ -1,11 +1,6 @@
 import "./registrarVenta.css";
 
-const formatCOP = (valor) =>
-  new Intl.NumberFormat("es-CO", {
-    style: "currency",
-    currency: "COP",
-    minimumFractionDigits: 0,
-  }).format(valor);
+import {formatCOP} from '../../../hooks/fromatCOP.js'
 
 function ModalVenta({ venta, onCerrar }) {
   if (!venta) return null;

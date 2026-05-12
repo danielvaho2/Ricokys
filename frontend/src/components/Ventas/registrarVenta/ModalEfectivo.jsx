@@ -1,12 +1,7 @@
 import { useState } from 'react'
 import './RegistrarVenta.css'
 
-const formatCOP = (valor) =>
-  new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
-    minimumFractionDigits: 0,
-  }).format(valor)
+import {formatCOP} from '../../../hooks/fromatCOP.js'
 
 function ModalEfectivo({ visible, total, onConfirmar, onCancelar }) {
   const [montoPagado, setMontoPagado] = useState('')
