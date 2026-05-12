@@ -7,6 +7,8 @@ import turnosRoutes from './routes/ventas/turnoRoutes.js'
 import ventasRoutes from "./routes/ventas/ventasRoutes.js";
 import detalleVentas from './routes/detalleVentaRoutes.js'
 import insertarRoutes from "./routes/crud.routes.js";
+
+import filtroRoutes from './routes/dashboard/filtroRoutes.js'
  
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { pool } from "./db/db.js";
@@ -15,6 +17,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use('/filtro',filtroRoutes);
 
 app.use("/productos", productosRoutes);
 app.use("/turno", turnosRoutes);
