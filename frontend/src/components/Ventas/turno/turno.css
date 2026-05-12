@@ -63,3 +63,31 @@
 .turno__btn--cancelar:hover {
   opacity: 0.85;
 }
+
+.turno__resumen-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.turno__resumen-card {
+  background: var(--color-background-secondary);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.turno__resumen-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.turno__resumen-valor {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}

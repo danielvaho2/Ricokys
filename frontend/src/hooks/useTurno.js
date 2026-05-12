@@ -5,6 +5,7 @@ export function useTurno() {
   const [turnoActivo, setTurnoActivo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [resumenTurno, setResumenTurno] = useState(null);
 
   useEffect(() => {
     getTurnoActivo()
@@ -15,6 +16,7 @@ export function useTurno() {
   const handleAbrir = async () => {
     try {
         setLoading(true)
+        setResumenTurno(null)
       const turno = await abrirTurno();
       setTurnoActivo(turno);
       
@@ -30,7 +32,8 @@ export function useTurno() {
   const handleCerrar =async ()=>{
     try{
         setLoading(true)
-        await cerrarTurno();
+      const resumen =  await cerrarTurno();
+      setResumenTurno(resumen)
         setTurnoActivo(null)
     }catch(err){
         setError(err.menssage)
@@ -38,12 +41,16 @@ export function useTurno() {
         setLoading(false)
     }
   }
+  
+
 
   return{
     turnoActivo,
+    resumenTurno,
     loading,
     error,
     abrirTurno:handleAbrir,
     cerrarTurno:handleCerrar,
+    limpiarResumen: () => setResumenTurno(null),
   };
 }

@@ -1,11 +1,14 @@
 import { useState } from "react";
+import ModalResumen from "./ModalResumen";
 import "./turno.css";
 
-function Turno({ turnoActivo, abrirTurno, cerrarTurno, loading }) {
+function Turno({ turnoActivo, abrirTurno, cerrarTurno, loading, resumenTurno, limpiarResumen }) {
   const [confirmar, setConfirmar] = useState(false);
 
   return (
     <div className="turno">
+      <ModalResumen resumen={resumenTurno} onCerrar={limpiarResumen} />
+
       {turnoActivo ? (
         <>
           {confirmar ? (

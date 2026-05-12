@@ -10,9 +10,26 @@ import RegistrarVenta from "../../components/Ventas/registrarVenta/registrarVent
 
 function Ventas() {
   const { productos, loading: loadingProductos } = useProductos();
-  const { carrito, agregarAlCarrito, eliminarDelCarrito, aumentarCantidad, disminuirCantidad, vaciar,total } = useCarrito();
-  const { turnoActivo, loadingTurno, errorTurno, abrirTurno, cerrarTurno } = useTurno();
-  const { registrar, loadingVenta, errorVenta, ventaExitosa, cerrarModal } = useRegistrarVenta({ carrito, vaciar });
+  const {
+    carrito,
+    agregarAlCarrito,
+    eliminarDelCarrito,
+    aumentarCantidad,
+    disminuirCantidad,
+    vaciar,
+    total,
+  } = useCarrito();
+  const {
+    turnoActivo,
+    resumenTurno,
+    loadingTurno,
+    errorTurno,
+    abrirTurno,
+    cerrarTurno,
+    limpiarResumen,
+  } = useTurno();
+  const { registrar, loadingVenta, errorVenta, ventaExitosa, cerrarModal } =
+    useRegistrarVenta({ carrito, vaciar });
 
   return (
     <div className="contenedor-ventas">
@@ -29,22 +46,24 @@ function Ventas() {
           aumentarCantidad={aumentarCantidad}
           disminuirCarrito={disminuirCantidad}
         />
-          <RegistrarVenta
-            carrito={carrito}
-            total={total}  
-            loading={loadingVenta}
-            error={errorVenta}
-            ventaExitosa={ventaExitosa}
-            onRegistrar={registrar}
-            onCerrarModal={cerrarModal}
-            turnoActivo={turnoActivo}
-          />
+        <RegistrarVenta
+          carrito={carrito}
+          total={total}
+          loading={loadingVenta}
+          error={errorVenta}
+          ventaExitosa={ventaExitosa}
+          onRegistrar={registrar}
+          onCerrarModal={cerrarModal}
+          turnoActivo={turnoActivo}
+        />
         <Turno
           turnoActivo={turnoActivo}
           abrirTurno={abrirTurno}
           cerrarTurno={cerrarTurno}
           loading={loadingTurno}
           error={errorTurno}
+          resumenTurno={resumenTurno}
+          limpiarResumen={limpiarResumen}
         />
       </div>
     </div>
