@@ -3,10 +3,10 @@ import { useProductos } from "../../hooks/useProductos";
 import { useCarrito } from "../../hooks/useCarrito";
 import { useTurno } from "../../hooks/useTurno";
 import { useRegistrarVenta } from "../../hooks/useRegistrarVenta";
-import Productos from "../../components/productos/productos";
-import Carrito from "../../components/carrito/carrito";
-import Turno from "../../components/turno/turno";
-import RegistrarVenta from "../../components/registrarVenta/registrarVenta";
+import Productos from "../../components/Ventas/productos/productos";
+import Carrito from "../../components/Ventas/carrito/carrito";
+import Turno from "../../components/Ventas/turno/turno";
+import RegistrarVenta from "../../components/Ventas/registrarVenta/registrarVenta";
 
 function Ventas() {
   const { productos, loading: loadingProductos } = useProductos();
