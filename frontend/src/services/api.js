@@ -96,3 +96,18 @@ export const createVenta = async ({productos,metodo_pago})=>{
   }
   return res.json();
 }
+
+export const getVentasPorRango = async ({ fechaInicio, fechaFinal }) => {
+  const res = await fetch(
+    `${BASE_URL}/filtro?fechaInicio=${fechaInicio}&fechaFinal=${fechaFinal}`
+  );
+
+  return await res.json();
+};
+export const getTotalPorRango = async ({ fechaInicio, fechaFinal }) => {
+  const res = await fetch(
+    `${BASE_URL}/filtro/total?fechaInicio=${fechaInicio}&fechaFinal=${fechaFinal}`
+  );
+
+  return await res.json();
+};

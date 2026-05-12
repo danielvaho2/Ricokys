@@ -1,0 +1,39 @@
+.container-filtro {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.container-filtro input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s ease;
+}
+
+.container-filtro input:focus {
+  border-color: #1d9e75;
+}
+
+.container-filtro button {
+  padding: 10px 14px;
+  background: #1d9e75;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.container-filtro button:hover {
+  opacity: 0.85;
+}

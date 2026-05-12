@@ -1,0 +1,38 @@
+import "./filtro.css";
+function Filtro({
+  fechaInicio,
+  fechaFinal,
+  
+  setFechaInicio,
+  setFechaFinal,
+  buscarVentas,
+  
+  limpiarFiltro,
+}) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    buscarVentas();
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="container-filtro">
+      <input
+        type="date"
+        value={fechaInicio}
+        onChange={(e) => setFechaInicio(e.target.value)}
+      />
+
+      <input
+        type="date"
+        value={fechaFinal}
+        onChange={(e) => setFechaFinal(e.target.value)}
+      />
+
+      <button type="submit">Buscar</button>
+
+      <button onClick={limpiarFiltro}>limpiar</button>
+    </form>
+  );
+}
+
+export default Filtro;

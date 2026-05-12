@@ -18,3 +18,18 @@ ORDER BY dia
 
   return result.recordset;
 };
+
+export const getTotalPorRango = async (fechaInicio, fechaFinal) => {
+  const result = await pool
+    .request()
+    .input(`fechaInicio`, fechaInicio)
+    .input(`fechaFinal`, fechaFinal).query(`
+    SELECT 
+    
+    SUM(total) AS gran_total_ventas 
+FROM ventas 
+WHERE fecha >= @fechaInicio AND fecha <= @fechaFinal;
+    `);
+
+  return result.recordset;
+};
