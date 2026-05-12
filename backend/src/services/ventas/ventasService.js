@@ -1,7 +1,6 @@
-import sql from 'mssql'
-import {pool} from '../db/db.js'
-import { getActivo} from './turnoService.js'
-
+import sql from "mssql";
+import { pool } from "../../db/db.js";
+import { getActivo } from "./turnoService.js";
 
 export const create = async ({ productos, metodo_pago }) => {
   const turno = await getActivo();
@@ -18,21 +17,22 @@ export const create = async ({ productos, metodo_pago }) => {
     ids.forEach((id, i) => req1.input(`id${i}`, sql.Int, id));
 
     const { recordset: productosDB } = await req1.query(
-      `SELECT id, precio,nombre FROM productos WHERE id IN (${placeholders})`
+      `SELECT id, precio,nombre FROM productos WHERE id IN (${placeholders})`,
     );
 
     if (productosDB.length !== ids.length)
       throw new Error("Uno o más productos no existen");
 
-   const precioMap = {};
-const nombreMap = {};
-productosDB.forEach((p) => {
-  precioMap[p.id] = parseFloat(p.precio);
-  nombreMap[p.id] = p.nombre;
-});
+    const precioMap = {};
+    const nombreMap = {};
+    productosDB.forEach((p) => {
+      precioMap[p.id] = parseFloat(p.precio);
+      nombreMap[p.id] = p.nombre;
+    });
 
     const total = productos.reduce(
-      (acc, p) => acc + precioMap[p.producto_id] * p.cantidad, 0
+      (acc, p) => acc + precioMap[p.producto_id] * p.cantidad,
+      0,
     );
 
     // Insertar venta
@@ -44,7 +44,7 @@ productosDB.forEach((p) => {
     const { recordset: ventaRows } = await req2.query(
       `INSERT INTO ventas (turno_id, total, metodo_pago)
        OUTPUT INSERTED.*
-       VALUES (@turno_id, @total, @metodo_pago)`
+       VALUES (@turno_id, @total, @metodo_pago)`,
     );
     const venta = ventaRows[0];
 
@@ -61,31 +61,31 @@ productosDB.forEach((p) => {
 
     await req3.query(
       `INSERT INTO detalle_venta (venta_id, producto_id, cantidad, precio)
-       VALUES ${values.join(",")}`
+       VALUES ${values.join(",")}`,
     );
 
     await transaction.commit();
 
-   return {
-  id: venta.id,
-  total: venta.total,
-  metodo_pago: venta.metodo_pago,
-  fecha: venta.fecha,
-  detalle: productos.map((p) => ({
-    producto_id: p.producto_id,
-    nombre: nombreMap[p.producto_id],
-    cantidad: p.cantidad,
-    precio: precioMap[p.producto_id],
-    subtotal: precioMap[p.producto_id] * p.cantidad,
-  })),
-};
+    return {
+      id: venta.id,
+      total: venta.total,
+      metodo_pago: venta.metodo_pago,
+      fecha: venta.fecha,
+      detalle: productos.map((p) => ({
+        producto_id: p.producto_id,
+        nombre: nombreMap[p.producto_id],
+        cantidad: p.cantidad,
+        precio: precioMap[p.producto_id],
+        subtotal: precioMap[p.producto_id] * p.cantidad,
+      })),
+    };
   } catch (err) {
     await transaction.rollback();
     throw err;
   }
 };
 
-export const getAll = async() => {
+export const getAll = async () => {
   const result = await pool.request().query(`
     SELECT 
       v.id, v.total, v.metodo_pago, v.fecha, v.turno_id,
@@ -100,9 +100,12 @@ export const getAll = async() => {
   for (const row of result.recordset) {
     if (!map[row.id]) {
       map[row.id] = {
-        id: row.id, total: row.total,
-        metodo_pago: row.metodo_pago, fecha: row.fecha,
-        turno_id: row.turno_id, detalle: [],
+        id: row.id,
+        total: row.total,
+        metodo_pago: row.metodo_pago,
+        fecha: row.fecha,
+        turno_id: row.turno_id,
+        detalle: [],
       };
     }
     map[row.id].detalle.push({

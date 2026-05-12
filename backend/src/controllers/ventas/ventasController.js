@@ -1,4 +1,4 @@
-import * as ventasService from "../services/ventasService.js";
+import * as ventasService from "../../services/ventas/ventasService.js";
 
 export const createVenta = async (req, res) => {
   try {
@@ -24,13 +24,11 @@ export const getVenta = async (req, res) => {
   }
 };
 
-
 export const getResumen = async (req, res) => {
   try {
     const resumen = await ventasService.getResumen();
     res.status(200).json(resumen);
   } catch (err) {
-        return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
-

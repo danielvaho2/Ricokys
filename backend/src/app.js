@@ -1,12 +1,13 @@
 import express from "express";
 import cors from "cors";
 
-import ventasRoutes from "./routes/ventasRoutes.js";
-import insertarRoutes from "./routes/crud.routes.js";
-
 //mis routes sin chatgpt
-import productosRoutes from './routes/productosRoutes.js'
-import turnosRoutes from './routes/turnoRoutes.js'
+import productosRoutes from './routes/ventas/productosRoutes.js'
+import turnosRoutes from './routes/ventas/turnoRoutes.js'
+import ventasRoutes from "./routes/ventas/ventasRoutes.js";
+import detalleVentas from './routes/detalleVentaRoutes.js'
+import insertarRoutes from "./routes/crud.routes.js";
+ 
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { pool } from "./db/db.js";
 
@@ -19,6 +20,7 @@ app.use("/productos", productosRoutes);
 app.use("/turno", turnosRoutes);
 app.use("/ventas", ventasRoutes);
 app.use("/productos", insertarRoutes);
+app.use('/detalle',detalleVentas);
 app.get("/test", async (req, res) => {
   const result = await pool.request().query("SELECT * FROM Productos");
   res.json(result.recordset);

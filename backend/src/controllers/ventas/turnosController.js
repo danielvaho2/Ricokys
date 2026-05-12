@@ -1,4 +1,4 @@
-import * as turnosService from "../services/turnoService.js";
+import * as turnosService from "../../services/ventas/turnoService.js";
 
 export const abrirTurno = async (req, res) => {
   try {

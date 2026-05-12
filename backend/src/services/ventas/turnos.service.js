@@ -1,26 +1,29 @@
-import {pool} from '../db/db.js'
+import { pool } from "../../db/db.js";
 
-export const getActivo=async ()=>{
-const result = await pool.request().query(`SELECT TOP 1 * FROM turnos WHERE estado = 'abierto' `)
-return result.recordset[0] || null
-}
+export const getActivo = async () => {
+  const result = await pool
+    .request()
+    .query("SELECT TOP 1 * FROM turnos WHERE estado = 'abierto'");
+  return result.recordset[0] || null;
+};
 
-export const abrir = async () =>{
-    const activo = await getActivo();
-    if(activo)  throw new Error ('Ya hay un turno acrivo')
-        
-     const result= await pool.request().query(`INSERT INTO turnos (fecha_inicio, estado) OUTPUT INSERTED.* VALUES (GETDATE(), 'abierto')`)   
+export const abrir = async () => {
+  const activo = await getActivo();
+  if (activo) throw new Error("Ya hay un turno abierto");
 
-return result.recordset[0]
-}
-
+  const result = await pool
+    .request()
+    .query(
+      "INSERT INTO turnos (fecha_inicio, estado) OUTPUT INSERTED.* VALUES (GETDATE(), 'abierto')",
+    );
+  return result.recordset[0];
+};
 
 export const cerrar = async () => {
   const activo = await getActivo();
   if (!activo) throw new Error("No hay turno activo");
 
-  const resumenResult = await pool.request()
-    .input("turno_id", activo.id)
+  const resumenResult = await pool.request().input("turno_id", activo.id)
     .query(`
       SELECT 
         COUNT(*) AS cantidad_ventas,
@@ -33,9 +36,12 @@ export const cerrar = async () => {
 
   const resumen = resumenResult.recordset[0];
 
-  await pool.request()
+  await pool
+    .request()
     .input("id", activo.id)
-    .query("UPDATE turnos SET fecha_fin = GETDATE(), estado = 'cerrado' WHERE id = @id");
+    .query(
+      "UPDATE turnos SET fecha_fin = GETDATE(), estado = 'cerrado' WHERE id = @id",
+    );
 
   return {
     turno_id: activo.id,
