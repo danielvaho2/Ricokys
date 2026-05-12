@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { abrirTurno, cerrarTurno, getTurnoActivo } from "../services/api.js";
+import { abrirTurno, cerrarTurno, getTurnoActivo } from "../../services/api.js";
 
 export function useTurno() {
   const [turnoActivo, setTurnoActivo] = useState(null);
@@ -11,46 +11,41 @@ export function useTurno() {
     getTurnoActivo()
       .then(setTurnoActivo)
       .catch(() => setTurnoActivo(null));
-  },[]);
+  }, []);
 
   const handleAbrir = async () => {
     try {
-        setLoading(true)
-        setResumenTurno(null)
+      setLoading(true);
+      setResumenTurno(null);
       const turno = await abrirTurno();
       setTurnoActivo(turno);
-      
     } catch (err) {
       setError(err.menssage);
-      
-    }
-    finally{
-        setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleCerrar =async ()=>{
-    try{
-        setLoading(true)
-      const resumen =  await cerrarTurno();
-      setResumenTurno(resumen)
-        setTurnoActivo(null)
-    }catch(err){
-        setError(err.menssage)
-    }finally{
-        setLoading(false)
+  const handleCerrar = async () => {
+    try {
+      setLoading(true);
+      const resumen = await cerrarTurno();
+      setResumenTurno(resumen);
+      setTurnoActivo(null);
+    } catch (err) {
+      setError(err.menssage);
+    } finally {
+      setLoading(false);
     }
-  }
-  
+  };
 
-
-  return{
+  return {
     turnoActivo,
     resumenTurno,
     loading,
     error,
-    abrirTurno:handleAbrir,
-    cerrarTurno:handleCerrar,
+    abrirTurno: handleAbrir,
+    cerrarTurno: handleCerrar,
     limpiarResumen: () => setResumenTurno(null),
   };
 }
