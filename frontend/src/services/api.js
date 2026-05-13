@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://192.168.1.101:3000";
 
 export const registrarVenta = async ({ productos, metodo_pago }) => {
   const res = await fetch(`${BASE_URL}/ventas`, {

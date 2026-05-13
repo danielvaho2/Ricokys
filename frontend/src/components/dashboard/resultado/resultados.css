@@ -1,31 +1,200 @@
+/* =========================
+   CONTENEDOR
+========================= */
+
 .contenedor-resultados {
+  width: 100%;
+
   display: flex;
   flex-direction: column;
-  gap: 10px;
+
+  gap: 16px;
 }
 
+/* =========================
+   CARD
+========================= */
+
 .resultado-card {
+  width: 100%;
+
   display: flex;
   justify-content: space-between;
-  padding: 12px 14px;
+  align-items: center;
+
+  padding: 18px;
+
   background: #ffffff;
-  border: 1px solid #e6e6e6;
-  border-radius: 10px;
-  transition: transform 0.1s ease, box-shadow 0.2s ease;
+
+  border-radius: 20px;
+
+  border: 1px solid #ececec;
+
+  box-sizing: border-box;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+
+  gap: 20px;
 }
 
 .resultado-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* =========================
+   INFO IZQUIERDA
+========================= */
+
+.resultado-info {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+.resultado-dia-label {
+  font-size: 20px;
+
+  text-transform: uppercase;
+
+  color: #9ca3af;
+
+  letter-spacing: 1px;
+
+  font-weight: 700;
 }
 
 .resultado-fecha {
-  font-weight: 500;
-  color: #333;
+  font-size: 18px;
+
+  
+
+  color: #111827;
+}
+
+/* =========================
+   DERECHA
+========================= */
+
+.resultado-metricas {
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-end;
+
+  gap: 6px;
+}
+
+.resultado-ventas {
+  font-size: 14px;
+
+  color: #6b7280;
+
+  font-weight: 600;
 }
 
 .resultado-total {
-  font-weight: 600;
+  font-size: 20px;
+
+  font-weight: 800;
+
   color: #1d9e75;
-  font-size: 15px;
+}
+
+/* =========================
+   TOTAL GENERAL
+========================= */
+
+.total-general {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 16px;
+
+  margin-top: 10px;
+}
+
+.total-general p {
+  margin: 0;
+
+  padding: 22px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  border: 1px solid #ececec;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  color: #111827;
+
+  line-height: 1.6;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+.total-general p:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* =========================
+   NO DATOS
+========================= */
+
+.no-datos {
+  width: 100%;
+
+  padding: 30px;
+
+  text-align: center;
+
+  background: white;
+
+  border-radius: 20px;
+
+  border: 1px dashed #d1d5db;
+
+  color: #6b7280;
+
+  font-weight: 600;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .resultado-card {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .resultado-metricas {
+    width: 100%;
+
+    align-items: flex-start;
+  }
+
+  .resultado-total {
+    font-size: 18px;
+  }
+
+  .total-general {
+    grid-template-columns: 1fr;
+  }
 }

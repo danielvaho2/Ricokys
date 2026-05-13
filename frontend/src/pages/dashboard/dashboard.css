@@ -1,0 +1,58 @@
+/* =========================
+   HEADER DASHBOARD
+========================= */
+
+/* =========================
+   DASHBOARD CONTENEDOR
+========================= */
+
+.contenedor-filtro {
+  width: 100%;
+  min-height: 100dvh;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 24px;
+
+  padding: clamp(1rem, 3vw, 2rem);
+
+  box-sizing: border-box;
+
+  background: #f5f7fa;
+}
+.dashboard-header {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+
+  padding: 10px 4px;
+}
+
+.dashboard-titulo {
+  margin: 0;
+
+  font-size: clamp(2rem, 4vw, 3rem);
+
+  font-weight: 800;
+
+  color: #f45353;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+.dashboard-subtitulo {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 15px;
+
+  font-weight: 500;
+}
+

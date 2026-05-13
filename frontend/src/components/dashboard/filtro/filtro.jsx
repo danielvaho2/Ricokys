@@ -17,12 +17,14 @@ function Filtro({
   return (
     <form onSubmit={handleSubmit} className="container-filtro">
       <input
+      className="container-filtro-input"
         type="date"
         value={fechaInicio}
         onChange={(e) => setFechaInicio(e.target.value)}
       />
 
       <input
+      className="container-filtro-input"
         type="date"
         value={fechaFinal}
         onChange={(e) => setFechaFinal(e.target.value)}
