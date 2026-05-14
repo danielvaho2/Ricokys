@@ -1,6 +1,5 @@
 import "./resultados.css";
 import { formatCOP } from "../../../hooks/fromatCOP.js";
-
 const formatFecha = (fecha) => {
   if (!fecha) return "";
   return fecha.split("T")[0];
