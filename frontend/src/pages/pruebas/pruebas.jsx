@@ -47,6 +47,7 @@ function Prueba() {
       console.log("Respuesta backend:", res);
     } catch (err) {
       console.error(err.message);
+      alert(err.message);
     }
   };
   const handleInsertar = async () => {
@@ -78,6 +79,7 @@ function Prueba() {
       setBusquedaEliminar("");
     } catch (err) {
       console.log(err.message);
+      alert('El producto esta asociado a una venta, no se puede eliminar');
     }
   };
 
