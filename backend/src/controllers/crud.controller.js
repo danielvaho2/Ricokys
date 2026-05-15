@@ -1,6 +1,7 @@
 import {
   insertarProducto,
   eliminarProducto,
+  updateProducto
 } from "../services/crud.service.js";
 
 export const insertar = async (req, res, next) => {
@@ -41,3 +42,23 @@ export const eliminar = async (req, res, next) => {
     next(error);
   }
 };
+
+export const update = async (req,res,next)=>{
+  try{
+    const {id,precio} = req.body
+    if(!id || precio === undefined || precio === null) return res.status(400).json({message:"Faltan datos"});
+    const result = await updateProducto({id,precio});
+    if(result.rowsAffected[0] === 0){
+      return res.status(404).json({
+        message:"Producto no encontrado"
+      })
+    }
+    res.status(200).json({
+      message:"Producto actualizado correctamente",
+      result
+    })
+  }catch(error)
+  {
+    next(error);
+  }
+}

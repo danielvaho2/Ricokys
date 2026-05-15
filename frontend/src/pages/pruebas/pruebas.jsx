@@ -3,7 +3,7 @@ import {
   registrarVenta,
   insertarProducto,
   eliminarProducto,
-  getAll,
+  updateProducto,
 } from "../../services/api";
 import { useEffect, useState } from "react";
 import "./pruebas.css";
@@ -14,15 +14,13 @@ function Prueba() {
   const [busquedaEliminar, setBusquedaEliminar] = useState("");
   const [nombre, setNombre] = useState("");
   const [precio, setPrecio] = useState("");
-  const [ventas, setVentas] = useState([]);
+  
 
   useEffect(() => {
     getProductos().then(setProductos);
   }, []);
 
-  useEffect(() => {
-    getAll().then(setVentas);
-  }, []);
+  
 
   const productosFiltradosBuscar = productos.filter((p) =>
     (p.nombre || "").toLowerCase().includes(busquedaBuscar.toLowerCase()),
@@ -42,9 +40,7 @@ function Prueba() {
         ],
         metodo_pago: "efectivo",
       });
-      const data = await getAll();
-      setVentas(data);
-      // 🔥 AQUÍ VES LO QUE SE VENDIÓ
+      
       console.log("🧾 VENTA:");
       console.log("Producto:", producto.nombre);
       console.log("Precio:", producto.precio);
@@ -82,6 +78,20 @@ function Prueba() {
       setBusquedaEliminar("");
     } catch (err) {
       console.log(err.message);
+    }
+  };
+
+  const handleUpdate = async (id) => {
+    try {
+      const nuevoPrecio = prompt("Ingrese el nuevo precio:");
+      if (nuevoPrecio === null) return; // El usuario canceló la acción
+      const res = await updateProducto({ id, precio: Number(nuevoPrecio) });
+      console.log("Producto actualizado:", res);  
+      // Recargar la lista de productos
+      const data = await getProductos();
+      setProductos(data);
+    } catch (err) {
+      console.error(err.message);
     }
   };
 
@@ -157,24 +167,24 @@ function Prueba() {
           ))}
       </div>
 
-      {/* 🟢 SECCIÓN 3: eliminar */}
-      <div className="panel">
-        <h1>Ventas producto</h1>
 
-        {ventas.map((venta) => (
-          <div key={venta.id}>
-            <p>
-              {venta.metodo_pago}
-              {venta.fecha}
-            </p>
-            {venta.detalle.map((item, index) => (
-              <p key={index}>{item.nombre}</p>
-            ))}
-          </div>
+      {/* 🔵 SECCIÓN 4: update */}
+      <div className="panel">
+
+        <h1>Actualizar producto</h1>
+
+         {productos.map((producto) => (
+          <p key={producto.id}>
+            {producto.nombre} - {producto.precio}
+            <button onClick={() => handleUpdate(producto.id)}>actualizar</button>
+          </p>
         ))}
       </div>
+       
+      
     </div>
   );
 }
 
-export default Prueba;
+
+export default Prueba

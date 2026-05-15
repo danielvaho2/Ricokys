@@ -19,3 +19,22 @@ export const eliminarProducto = async ({ id }) => {
 
       return result
 };
+
+export const updateProducto = async ({ id, precio }) => {
+  try {
+    const result = await pool
+      .request()
+      .input('id', sql.Int, id)
+      .input('precio', sql.Int, precio)
+      .query(`
+        UPDATE productos
+        SET precio = @precio
+        WHERE id = @id
+      `)
+
+    return result
+  } catch (error) {
+    console.error('Error actualizando producto:', error)
+    throw error
+  }
+}
