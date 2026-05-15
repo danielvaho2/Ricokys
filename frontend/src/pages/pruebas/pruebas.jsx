@@ -4,7 +4,11 @@ import {
   insertarProducto,
   eliminarProducto,
   updateProducto,
-} from "../../services/api";
+  desactivarProducto,
+  activarProducto,
+  getProductosActivos,
+  getProductosInactivos
+} from "../../services/crud";
 import { useEffect, useState } from "react";
 import "./pruebas.css";
 
@@ -14,10 +18,14 @@ function Prueba() {
   const [busquedaEliminar, setBusquedaEliminar] = useState("");
   const [nombre, setNombre] = useState("");
   const [precio, setPrecio] = useState("");
+  const [productosActivos, setProductosActivos] = useState([]);
+  const [productosInactivos, setProductosInactivos] = useState([]);
   
 
   useEffect(() => {
     getProductos().then(setProductos);
+    getProductosActivos().then(setProductosActivos);
+    getProductosInactivos().then(setProductosInactivos);
   }, []);
 
   
@@ -96,6 +104,35 @@ function Prueba() {
       console.error(err.message);
     }
   };
+  const handleDesactivar = async (id) => {
+    try {
+      const res = await desactivarProducto({ id }); 
+      alert('Producto desactivado');
+      console.log('Producto desactivado',res)
+      // Recargar la lista de productos
+      const activos = await getProductosActivos();
+      setProductosActivos(activos);
+      const desactivados = await getProductosInactivos();
+      setProductosInactivos(desactivados);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  const handleActivar = async (id) => {
+    try {
+      const res = await activarProducto({ id });
+      alert('Producto activado');
+      console.log('Producto activado',res)
+     
+      const desactivados = await getProductosInactivos();
+      setProductosInactivos(desactivados);
+      const activos = await getProductosActivos();
+      setProductosActivos(activos);
+    } catch (err) {
+      console.error(err.message);
+    } 
+  };
 
   return (
     <div className="grid-container">
@@ -149,7 +186,7 @@ function Prueba() {
         <button onClick={handleInsertar}>Insertar</button>
       </div>
 
-      {/* 🟢 SECCIÓN 3: eliminar */}
+      {/* 🟢 SECCIÓN 4: eliminar */}
       <div className="panel">
         <h2>Eliminar producto</h2>
 
@@ -170,7 +207,7 @@ function Prueba() {
       </div>
 
 
-      {/* 🔵 SECCIÓN 4: update */}
+      {/* 🔵 SECCIÓN 5: update */}
       <div className="panel">
 
         <h1>Actualizar producto</h1>
@@ -179,6 +216,30 @@ function Prueba() {
           <p key={producto.id}>
             {producto.nombre} - {producto.precio}
             <button onClick={() => handleUpdate(producto.id)}>actualizar</button>
+          </p>
+        ))}
+      </div>
+      {/* 🔵 SECCIÓN 6: desactivar */}
+      <div className="panel">
+
+        <h1>Desactivar producto</h1>
+
+         {productosActivos.map((producto) => (
+          <p key={producto.id}>
+            {producto.nombre} - {producto.precio}
+            <button onClick={() => handleDesactivar(producto.id)}>desactivar</button>
+          </p>
+        ))}
+      </div>
+      {/* 🔵 SECCIÓN 7: activar */}
+      <div className="panel">
+
+        <h1>Activar producto</h1>
+
+         {productosInactivos.map((producto) => (
+          <p key={producto.id}>
+            {producto.nombre} - {producto.precio}
+            <button onClick={() => handleActivar(producto.id)}>activar</button>
           </p>
         ))}
       </div>

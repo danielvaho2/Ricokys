@@ -1,7 +1,9 @@
 import {
   insertarProducto,
   eliminarProducto,
-  updateProducto
+  updateProducto,
+  desactivarProducto,
+  activarProducto,
 } from "../services/crud.service.js";
 
 export const insertar = async (req, res, next) => {
@@ -43,22 +45,69 @@ export const eliminar = async (req, res, next) => {
   }
 };
 
-export const update = async (req,res,next)=>{
-  try{
-    const {id,precio} = req.body
-    if(!id || precio === undefined || precio === null) return res.status(400).json({message:"Faltan datos"});
-    const result = await updateProducto({id,precio});
-    if(result.rowsAffected[0] === 0){
+export const update = async (req, res, next) => {
+  try {
+    const { id, precio } = req.body;
+    if (!id || precio === undefined || precio === null)
+      return res.status(400).json({ message: "Faltan datos" });
+    const result = await updateProducto({ id, precio });
+    if (result.rowsAffected[0] === 0) {
       return res.status(404).json({
-        message:"Producto no encontrado"
-      })
+        message: "Producto no encontrado",
+      });
     }
     res.status(200).json({
-      message:"Producto actualizado correctamente",
-      result
-    })
-  }catch(error)
-  {
+      message: "Producto actualizado correctamente",
+      result,
+    });
+  } catch (error) {
     next(error);
   }
-}
+};
+
+export const desactivar = async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    if (!id) return res.status(400).json({ message: "Faltan datos" });
+    const result = await desactivarProducto({ id });
+    if (result.rowsAffected[0] === 0) {
+      return res.status(404).json({
+        message: "Producto no encontrado",
+      });
+    }
+    res.status(200).json({
+      message: "Producto desactivado correctamente",
+      result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const activar = async (req, res, next) => {
+  try {
+    const { id } = req.body;
+
+    if (!id) {
+      return res.status(400).json({
+        message: "Faltan datos",
+      });
+    }
+
+    const result = await activarProducto({ id });
+
+    if (result.rowsAffected[0] === 0) {
+      return res.status(404).json({
+        message: "Producto no encontrado",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Producto activado correctamente",
+      result,
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};

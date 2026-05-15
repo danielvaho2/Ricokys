@@ -48,51 +48,6 @@ const res =await fetch(`${BASE_URL}/turno/cerrar`,{
   if (!res.ok) throw new Error("Error al cerrar turno");
 return res.json();
 }
-export const insertarProducto = async ({ nombre, precio }) => {
-  const res = await fetch(`${BASE_URL}/productos/insertar`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ nombre, precio }),
-  });
-
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.message || "Error al insertar producto");
-  }
-
-  return res.json();
-};
-
-export const eliminarProducto = async ({ id }) => {
-  const res = await fetch(`${BASE_URL}/productos/eliminar`, {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ id }),
-  });
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.message || "Error al eliminar el producto");
-  }
-
-  return res.json();
-};
-
-export const updateProducto = async ({ id, precio }) => {
-  const res = await fetch(`${BASE_URL}/productos/update`, {
-    method: "post",
-    headers: {'content-type': 'application/json'},
-    body: JSON.stringify({ id, precio })
-  });
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.message || "Error al actualizar el producto");
-  }
-  return res.json();
-}
 
 export const createVenta = async ({productos,metodo_pago})=>{
 
