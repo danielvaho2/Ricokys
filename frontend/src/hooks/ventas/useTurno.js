@@ -13,6 +13,8 @@ export function useTurno() {
       .catch(() => setTurnoActivo(null));
   }, []);
 
+  
+
   const handleAbrir = async () => {
     try {
       setLoading(true);

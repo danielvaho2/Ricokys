@@ -29,3 +29,14 @@ export const getTurnoActivo = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const getInventario = async (req, res) => {
+  try {
+    const { turno_id } = req.query
+    if (!turno_id) return res.status(400).json({ error: 'turno_id es requerido' })
+    const inventario = await turnosService.getInventarioTurno(Number(turno_id))
+    res.status(200).json(inventario)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+}

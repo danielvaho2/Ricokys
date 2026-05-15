@@ -1,3 +1,4 @@
+import sql from 'mssql'
 import { pool } from "../../db/db.js";
 
 export const getActivo = async () => {
@@ -53,3 +54,20 @@ export const cerrar = async () => {
     transferencia: resumen.transferencia,
   };
 };
+
+export const getInventarioTurno = async (turno_id) => {
+  const result = await pool.request()
+    .input('turno_id', sql.Int, turno_id)
+    .query(`
+      SELECT
+        p.nombre,
+        SUM(dv.cantidad) AS vendidos
+      FROM detalle_venta dv
+      JOIN productos p ON dv.producto_id = p.id
+      JOIN ventas v ON dv.venta_id = v.id
+      WHERE v.turno_id = @turno_id
+      GROUP BY p.nombre
+      ORDER BY vendidos DESC
+    `)
+  return result.recordset
+}

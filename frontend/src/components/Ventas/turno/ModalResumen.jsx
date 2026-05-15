@@ -1,8 +1,13 @@
 import './turno.css'
+import './inventarioTurno.css'
 
-import {formatCOP} from '../../../hooks/fromatCOP.js'
+import { formatCOP } from '../../../hooks/fromatCOP.js'
+import { useInventarioTurno } from '../../../hooks/ventas/useInventarioTurno.js'
+import InventarioTurno from './InventarioTurno'
 
 function ModalResumen({ resumen, onCerrar }) {
+  const { inventario, loading } = useInventarioTurno(resumen?.turno_id)
+
   if (!resumen) return null
 
   return (
@@ -28,6 +33,8 @@ function ModalResumen({ resumen, onCerrar }) {
             <span className="turno__resumen-valor">{formatCOP(resumen.transferencia)}</span>
           </div>
         </div>
+
+        <InventarioTurno inventario={inventario} loading={loading} />
 
         <button className="modal__btn" onClick={onCerrar}>
           Cerrar

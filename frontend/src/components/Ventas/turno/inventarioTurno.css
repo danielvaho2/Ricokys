@@ -1,0 +1,52 @@
+.turno__resumen-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.turno__resumen-card {
+  background: var(--color-background-secondary);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.turno__resumen-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-text-tertiary);
+}
+
+.turno__resumen-valor {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.turno__inventario {
+  border-top: 0.5px solid var(--color-border-tertiary);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.turno__inventario-titulo {
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-text-tertiary);
+  margin-bottom: 10px;
+}
+
+.turno__inventario-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 17px;
+  letter-spacing: 2px;
+  color: var(--color-text-primary);
+}
+

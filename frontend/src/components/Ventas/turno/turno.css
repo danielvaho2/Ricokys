@@ -1,7 +1,9 @@
 .turno {
   padding: 2rem;
 }
-
+.modal-overlay{
+  padding: 1rem;
+}
 .turno__btn {
   width: 100%;
   padding: 12px;
