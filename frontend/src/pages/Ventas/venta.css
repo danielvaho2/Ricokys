@@ -1,19 +1,23 @@
 .contenedor-ventas {
   display: flex;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   box-sizing: border-box;
   gap: 20px;
   padding: 16px;
   background: #f5f5f5;
+  overflow: hidden;
 }
 
 /* PRODUCTOS */
 
 .productos-section {
   flex: 2;
+  display: flex;
+  min-height: 0;
   min-width: 0;
   overflow-y: auto;
+  width: 100%;
 }
 
 /* CARRITO */
@@ -25,8 +29,9 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-
-  overflow-y: auto;
+  min-height: 0;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 /* SIDEBAR */
@@ -40,7 +45,9 @@
   border: 1px solid #ccc;
   border-radius: 25px;
 
-  overflow-y: auto;
+  overflow: hidden;
+  height: 100%;
+  min-height: 0;
 
   background: white;
 }
@@ -54,7 +61,6 @@
 /* TABLET */
 
 @media (max-width: 1024px) {
-
   .contenedor-ventas {
     flex-direction: column;
   }
@@ -73,7 +79,6 @@
 /* MOBILE */
 
 @media (max-width: 768px) {
-
   .contenedor-ventas {
     flex-direction: column;
     padding: 10px;

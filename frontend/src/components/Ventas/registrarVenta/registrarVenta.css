@@ -1,5 +1,4 @@
 .registrar {
-  padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -228,11 +227,10 @@
   text-align: center;
   font-size: 13px;
   letter-spacing: 1px;
-  color: #854F0B;
-  background-color: #FAEEDA;
-  border: 0.5px solid #EF9F27;
+  color: #854f0b;
+  background-color: #faeeda;
+  border: 0.5px solid #ef9f27;
   border-radius: 8px;
   padding: 10px 14px;
   margin: 8px 12px;
 }
-

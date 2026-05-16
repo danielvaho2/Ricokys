@@ -3,7 +3,9 @@
 .contenedor-carrito {
   width: 100%;
   max-width: 420px;
-  height: 600px;
+  flex: 1;
+  min-height: 0;
+  min-height: 0;
   background: #ffffff;
   border-radius: 20px;
   padding: 2rem;
@@ -11,6 +13,7 @@
   flex-direction: column;
   overflow: hidden;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /* ===== TITULO ===== */
@@ -41,6 +44,7 @@
 
 .contenedor-carrito-lista {
   flex: 1;
+  max-height: 300px;
   overflow-y: auto;
   list-style: none;
   padding: 0 6px 0 0;
