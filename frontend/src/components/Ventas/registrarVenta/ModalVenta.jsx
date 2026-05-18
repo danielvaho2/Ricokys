@@ -1,17 +1,14 @@
 import "./registrarVenta.css";
-
-import {formatCOP} from '../../../hooks/fromatCOP.js'
+import { formatCOP } from "../../../hooks/fromatCOP.js";
 
 function ModalVenta({ venta, onCerrar }) {
   if (!venta) return null;
-
   return (
     <div className="modal-overlay">
       <div className="modal">
+    <h1>Ficho # {String(venta.id).slice(-2)}</h1>
         <div className="modal__check">✓</div>
-
         <h2 className="modal__titulo">Venta registrada</h2>
-
         <div className="modal__detalle">
           {venta.detalle.map((item) => (
             <div key={item.producto_id} className="modal__item">

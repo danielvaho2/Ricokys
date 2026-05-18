@@ -64,6 +64,27 @@ export const create = async ({ productos, metodo_pago }) => {
        VALUES ${values.join(",")}`,
     );
 
+    const req4 = new sql.Request(transaction);
+
+    req4.input("venta_id", sql.Int, venta.id);
+    req4.input("turno_id", sql.Int, venta.turno_id);
+    req4.input("numero_ficho", sql.Int, venta.id); // o consecutivo propio
+
+    await req4.query(`
+  INSERT INTO fichos (
+    venta_id,
+    turno_id,
+    numero_ficho,
+    estado
+  )
+  VALUES (
+    @venta_id,
+    @turno_id,
+    @numero_ficho,
+    'pendiente'
+  )
+`);
+
     await transaction.commit();
 
     return {

@@ -1,0 +1,136 @@
+/* FichoCard.css */
+.ficho-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+  animation: cardIn 0.2s ease both;
+}
+
+.ficho-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-dark);
+  transform: translateY(-1px);
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Header ── */
+.ficho-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.ficho-card__numero {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.ficho-card__numero span {
+  color: var(--accent);
+  margin-right: 1px;
+}
+
+/* ── Badge estado ── */
+.ficho-card__estado {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+.ficho-card__estado--pendiente {
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
+}
+
+.ficho-card__estado--en_proceso {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.ficho-card__estado--listo {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.ficho-card__estado--Entregado {
+  background: var(--surface-2);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+/* ── Productos ── */
+.ficho-card__productos {
+  padding: 4px 0;
+}
+
+.ficho-card__divider {
+  margin: 0 16px;
+  border: none;
+  border-top: 1px dashed var(--border);
+}
+
+/* ── Footer ── */
+.ficho-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.ficho-card__footer > span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ── Botón ── */
+.ficho-card__btn {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 7px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, opacity 0.15s;
+}
+
+.ficho-card__btn:hover:not(:disabled) {
+  background: var(--accent);
+  color: #fff;
+}
+
+.ficho-card__btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.ficho-card__btn--done {
+  border-color: var(--success);
+  color: var(--success);
+}
