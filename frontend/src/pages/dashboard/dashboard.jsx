@@ -51,19 +51,20 @@ function Dashboard() {
       <main className="dashboard-content">
         <div className="dashboard-header">
           <div className="dashboard-header-top">
-            {/* BOTON MOBILE */}
-            <div className="menu-btn-container">
-              <button
-                className="menu-btn"
-                onClick={() => setMenuOpen(!menuOpen)}
-              >
-                ☰
-              </button>
-            </div>
-
-            <div>
-              <h1 className="dashboard-titulo">Panel de ventas</h1>
-              <p className="dashboard-subtitulo">Control y estadísticas</p>
+            <div className="container-todo">
+              {/* BOTON MOBILE */}
+              <div className="menu-btn-container">
+                <button
+                  className="menu-btn"
+                  onClick={() => setMenuOpen(!menuOpen)}
+                >
+                  ☰
+                </button>
+              </div>
+              <div className="dashboard-header-text">
+                <h1 className="dashboard-titulo">Panel de ventas</h1>
+                <p className="dashboard-subtitulo">Control y estadísticas</p>
+              </div>
             </div>
           </div>
         </div>
