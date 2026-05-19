@@ -1,58 +1,231 @@
 /* =========================
-   HEADER DASHBOARD
+   GOOGLE FONT
 ========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 /* =========================
-   DASHBOARD CONTENEDOR
+   GLOBAL
 ========================= */
 
-.contenedor-filtro {
-  width: 100%;
-  min-height: 100dvh;
-
-  display: flex;
-  flex-direction: column;
-
-  gap: 24px;
-
-  padding: clamp(1rem, 3vw, 2rem);
-
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-
-  background: #f5f7fa;
+  font-family: 'Inter', sans-serif;
 }
-.dashboard-header {
-  width: 100%;
 
+/* =========================
+   LAYOUT
+========================= */
+
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+  width: 15%;
+  background: white;
+  border-right: 1px solid #e5e7eb;
+  padding: 28px 20px;
   display: flex;
   flex-direction: column;
+  gap: 40px;
+  position: sticky;
+  top: 0;
+}
 
-  gap: 6px;
+.sidebar-logo {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: #ef4444;
+}
 
-  padding: 10px 4px;
+/* =========================
+   NAV
+========================= */
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-nav button {
+  border: none;
+  background: transparent;
+  color: #475569;
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.sidebar-nav button:hover {
+  background: #f1f5f9;
+  color: #111827;
+}
+
+/* =========================
+   MENU BUTTON
+========================= */
+
+.menu-btn-container {
+  display: none;
+}
+
+.menu-btn {
+  display: none;
+  border: none;
+  background: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   OVERLAY
+========================= */
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 998;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.dashboard-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 32px;
+  background: #f8fafc;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.dashboard-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .dashboard-titulo {
-  margin: 0;
-
-  font-size: clamp(2rem, 4vw, 3rem);
-
+  font-size: clamp(2rem, 5vw, 3.2rem);
   font-weight: 800;
-
-  color: #f45353;
-
-  letter-spacing: 2px;
-
-  text-transform: uppercase;
+  letter-spacing: -2px;
+  color: #0f172a;
 }
 
 .dashboard-subtitulo {
-  margin: 0;
-
-  color: #6b7280;
-
+  color: #64748b;
   font-size: 15px;
-
   font-weight: 500;
 }
 
+/* =========================
+   LOADING
+========================= */
+
+.dashboard-loading {
+  width: fit-content;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+}
+
+/* =========================
+   RESPONSIVE 900px
+========================= */
+
+@media (max-width: 900px) {
+
+  
+  /* Contenedor del botón hamburguesa */
+  .menu-btn-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 20px 20px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+
+  }
+
+  /* Botón hamburguesa */
+  .menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Sidebar oculto por defecto */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    z-index: 999;
+    transition: 0.3s ease;
+
+  }
+
+  /* Sidebar visible */
+  .sidebar-open {
+    left: 0;
+  }
+
+  /* Nav en columna */
+  .sidebar-nav {
+    flex-direction: column;
+  }
+
+  /* Contenido con espacio para el header fijo */
+  .dashboard-content {
+    width: 100%;
+  }
+}
+
+/* =========================
+   RESPONSIVE 600px
+========================= */
+
+@media (max-width: 600px) {
+  .dashboard-titulo {
+    font-size: 2rem;
+  }
+
+  .sidebar-logo {
+    font-size: 1.7rem;
+  }
+
+  .dashboard-content {
+    padding: 16px;
+  }
+}
