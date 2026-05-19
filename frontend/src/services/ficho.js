@@ -1,7 +1,7 @@
-const BASE_URL = "http://localhost:3000/";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const getFichos = async (turno_id) => {
-  const res = await fetch(`${BASE_URL}ficho/`, {
+  const res = await fetch(`${BASE_URL}/ficho/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -17,7 +17,7 @@ export const getFichos = async (turno_id) => {
 }; 
 
 export const setFichoEstado = async (turno_id, ficho_id) => {
-  const res = await fetch(`${BASE_URL}ficho/update`, {
+  const res = await fetch(`${BASE_URL}/ficho/update`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
