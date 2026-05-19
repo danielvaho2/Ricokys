@@ -1,13 +1,17 @@
 import "./resultados.css";
 import { formatCOP } from "../../../hooks/fromatCOP.js";
+import { useDetalleVenta } from "../../../hooks/dashboard/useDetalleVenta.js";
+import DetallePanel from "./detallePanel.jsx";
+
 const formatFecha = (fecha) => {
   if (!fecha) return "";
   return fecha.split("T")[0];
 };
 
 function Resultados({ ventasRango, totalRango }) {
-  const granTotal = Number(totalRango?.gran_total_ventas) || 0;
+  const { abierto, detalle, cargando, toggleDetalle } = useDetalleVenta();
 
+  const granTotal = Number(totalRango?.gran_total_ventas) || 0;
   const cantidadVentas = ventasRango.reduce(
     (acc, venta) => acc + Number(venta.cantidad_ventas),
     0,
@@ -18,35 +22,49 @@ function Resultados({ ventasRango, totalRango }) {
       {ventasRango.length === 0 ? (
         <div className="no-datos">No hay datos en ese rango</div>
       ) : (
-        <>
-          {ventasRango.map((venta, index) => (
+        ventasRango.map((venta, index) => {
+          const fecha = formatFecha(venta.dia);
+          const estaAbierto = abierto === fecha;
+          const estaCargando = cargando === fecha;
+          const ventasDelDia = detalle[fecha] ?? [];
+
+          return (
             <div className="resultado-card" key={index}>
-             <div className="resultado-info">
+              <div className="resultado-info">
+                <span className="resultado-dia-label">📅 día</span>
+                <span className="resultado-fecha">{fecha}</span>
+              </div>
 
-  <span className="resultado-dia-label">
-    📅 Día
-  </span>
+              <div className="resultado-ventas-bloque">
+                <span className="resultado-ventas-label">ventas</span>
+                <span className="resultado-ventas">
+                  {venta.cantidad_ventas}
+                </span>
+              </div>
 
-  <span className="resultado-fecha">
-    {formatFecha(venta.dia)}
-  </span>
+              <div className="resultado-total-bloque">
+                <span className="resultado-total-label">total</span>
+                <span className="resultado-total">
+                  {formatCOP(venta.total_dia)}
+                </span>
+              </div>
 
-</div>
+              <button
+                className="btn-detalle"
+                onClick={() => toggleDetalle(fecha)}
+              >
+                {estaAbierto ? "▲ Ocultar" : "▼ Ver detalle"}
+              </button>
 
-<div className="resultado-metricas">
-
-  <span className="resultado-ventas">
-    🛒 {venta.cantidad_ventas} ventas
-  </span>
-
-  <span className="resultado-total">
-    {formatCOP(venta.total_dia)}
-  </span>
-
-</div>
+              {estaAbierto && (
+                <DetallePanel
+                  estaCargando={estaCargando}
+                  ventasDelDia={ventasDelDia}
+                />
+              )}
             </div>
-          ))}
-        </>
+          );
+        })
       )}
 
       <div className="total-general">
@@ -54,7 +72,6 @@ function Resultados({ ventasRango, totalRango }) {
           💰 Total vendido <br />
           {formatCOP(granTotal)}
         </p>
-
         <p>
           🛒 Cantidad de ventas <br />
           {cantidadVentas}

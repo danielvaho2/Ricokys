@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getVentasPorRango, getTotalPorRango } from "../../services/api";
 
 export const useVentasRango = () => {
+  
   const [ventasRango, setVentasRango] = useState([]);
   const [totalRango, setTotalRango] = useState([]);
   const [fechaInicio, setFechaInicio] = useState("");

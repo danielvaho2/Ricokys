@@ -10,191 +10,215 @@
 
   gap: 16px;
 }
-
-/* =========================
-   CARD
+  /* =========================
+   CARD — ajuste para desplegable
 ========================= */
 
 .resultado-card {
   width: 100%;
-
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
   align-items: center;
-
-  padding: 18px;
-
+  gap: 16px;
+  padding: 16px 20px;
   background: #ffffff;
-
-  border-radius: 20px;
-
-  border: 1px solid #ececec;
-
+  border: 0.5px solid #ececec;
+  border-left: 3px solid #1d9e75;
+  border-radius: 12px;
   box-sizing: border-box;
-
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.2s ease;
-
-  gap: 20px;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  flex-wrap: wrap;
 }
 
 .resultado-card:hover {
   transform: translateY(-2px);
-
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
 
 /* =========================
-   INFO IZQUIERDA
+   BLOQUES INTERNOS
 ========================= */
 
 .resultado-info {
   display: flex;
   flex-direction: column;
-
-  gap: 6px;
+  gap: 3px;
 }
 
 .resultado-dia-label {
-  font-size: 20px;
-
-  text-transform: uppercase;
-
+  font-size: 11px;
   color: #9ca3af;
-
-  letter-spacing: 1px;
-
-  font-weight: 700;
 }
 
 .resultado-fecha {
-  font-size: 18px;
-
-  
-
+  font-size: 16px;
+  font-weight: 500;
   color: #111827;
 }
 
-/* =========================
-   DERECHA
-========================= */
-
-.resultado-metricas {
+.resultado-ventas-bloque {
   display: flex;
   flex-direction: column;
+  gap: 3px;
+}
 
-  align-items: flex-end;
-
-  gap: 6px;
+.resultado-ventas-label {
+  font-size: 11px;
+  color: #9ca3af;
 }
 
 .resultado-ventas {
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #111827;
+}
 
-  color: #6b7280;
+.resultado-total-bloque {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
 
-  font-weight: 600;
+.resultado-total-label {
+  font-size: 11px;
+  color: #9ca3af;
 }
 
 .resultado-total {
-  font-size: 20px;
-
-  font-weight: 800;
-
+  font-size: 16px;
+  font-weight: 500;
   color: #1d9e75;
 }
 
 /* =========================
-   TOTAL GENERAL
+   BOTÓN VER DETALLE
 ========================= */
 
-.total-general {
-  width: 100%;
-
-  display: grid;
-
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-
-  gap: 16px;
-
-  margin-top: 10px;
-}
-
-.total-general p {
-  margin: 0;
-
-  padding: 22px;
-
-  background: white;
-
-  border-radius: 18px;
-
-  border: 1px solid #ececec;
-
-  font-size: 16px;
-
-  font-weight: 700;
-
-  color: #111827;
-
-  line-height: 1.6;
-
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.2s ease;
-}
-
-.total-general p:hover {
-  transform: translateY(-2px);
-
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-}
-
-/* =========================
-   NO DATOS
-========================= */
-
-.no-datos {
-  width: 100%;
-
-  padding: 30px;
-
-  text-align: center;
-
-  background: white;
-
-  border-radius: 20px;
-
-  border: 1px dashed #d1d5db;
-
+.btn-detalle {
+  font-size: 12px;
+  font-weight: 500;
   color: #6b7280;
+  background: #f9fafb;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
 
-  font-weight: 600;
+.btn-detalle:hover {
+  background: #f3f4f6;
+  color: #111827;
 }
 
 /* =========================
-   RESPONSIVE
+   PANEL DESPLEGABLE
 ========================= */
 
-@media (max-width: 768px) {
-  .resultado-card {
-    flex-direction: column;
-
-    align-items: flex-start;
-  }
-
-  .resultado-metricas {
-    width: 100%;
-
-    align-items: flex-start;
-  }
-
-  .resultado-total {
-    font-size: 18px;
-  }
-
-  .total-general {
-    grid-template-columns: 1fr;
-  }
+.detalle-panel {
+  width: 100%;
+  grid-column: 1 / -1;     /* ocupa todas las columnas del grid */
+  padding-top: 16px;
+  border-top: 1px dashed #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: expandir 0.2s ease;
 }
+
+@keyframes expandir {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+  .detalle-cargando {
+    font-size: 13px;
+    color: #9ca3af;
+    text-align: center;
+    padding: 8px 0;
+  }
+
+  /* =========================
+    CADA VENTA
+  ========================= */
+
+  .detalle-venta {
+    border: 1px solid #ececec;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .detalle-venta__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: #f9fafb;
+    border-bottom: 1px solid #ececec;
+  }
+
+  .detalle-venta__id {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .detalle-venta__metodo {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    background: #6b7280;
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+
+  .detalle-venta__total {
+    font-size: 14px;
+    font-weight: 800;
+    color: #1d9e75;
+  }
+
+  /* =========================
+    PRODUCTOS DE LA VENTA
+  ========================= */
+
+  .detalle-venta__productos {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .detalle-venta__productos li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    font-size: 13px;
+    color: #374151;
+    border-top: 1px solid #f3f4f6;
+    transition: background 0.12s;
+  }
+
+  .detalle-venta__productos li:hover {
+    background: #f9fafb;
+  }
+
+  .detalle-venta__productos li span:last-child {
+    font-weight: 700;
+    color: #111827;
+  }
+
+  /* =========================
+    RESPONSIVE DESPLEGABLE
+  ========================= */
+
+  @media (max-width: 768px) {
+    .detalle-venta__header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+  }
