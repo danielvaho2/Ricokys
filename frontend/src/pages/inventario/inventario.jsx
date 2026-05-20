@@ -1,127 +1,101 @@
 import "./inventario.css";
 import { useState } from "react";
 import { useInventario } from "../../hooks/inventario/useInventario.js";
-import { formatCOP } from "../../hooks/fromatCOP.js";
-
-const getEstado = (stock) => {
-  if (stock === 0) return { label: "Sin stock", clase: "badge--out" };
-  if (stock <= 5) return { label: "Stock bajo", clase: "badge--low" };
-  return { label: "Disponible", clase: "badge--ok" };
-};
+import InventarioTable from "../../components/inventario/InventarioTable.jsx";
+import AgregarStockModal from "../../components/inventario/AgregarStockModal.jsx";
 
 function Inventario() {
-  const { productos, loading, error, guardando, editarStock } = useInventario();
-  const [editando, setEditando] = useState(null); // { id, stock }
+  const { productos, loading, error, guardando, editarStock, agregaStock } =
+    useInventario();
+
+  const [editando, setEditando] = useState(null);
   const [busqueda, setBusqueda] = useState("");
 
-  const productosFiltrados = productos.filter((p) =>
-    p.nombre.toLowerCase().includes(busqueda.toLowerCase()),
-  );
+  // Modal agregar stock
+  const [modalStock, setModalStock] = useState(null);
+  const [cantidadAgregar, setCantidadAgregar] = useState(1);
 
   const handleGuardar = async (id) => {
-    await editarStock(id, Number(editando.stock));
+    const stock = Number(editando.stock);
+
+    if (editando.stock === "" || isNaN(stock) || stock < 0) {
+      alert("El stock debe ser un número válido y no negativo");
+      return;
+    }
+
+    await editarStock(id, stock);
+
     setEditando(null);
   };
 
-  if (loading) return <p className="inventario-cargando">Cargando...</p>;
-  if (error) return <p className="inventario-error">{error}</p>;
+  const handleAgregarStock = async () => {
+    const cantidad = Number(cantidadAgregar);
+
+    if (isNaN(cantidad) || cantidad <= 0) {
+      alert("Ingrese una cantidad válida");
+      return;
+    }
+
+    await agregaStock(modalStock.id, cantidad);
+
+    setModalStock(null);
+    setCantidadAgregar(1);
+  };
+
+  const handleEditar = (value) => setEditando(value);
+
+  const handleAbrirModal = (producto) => {
+    setModalStock(producto);
+    setCantidadAgregar(0);
+  };
+
+  if (loading) {
+    return <p className="inventario-cargando">Cargando...</p>;
+  }
+
+  if (error) {
+    return <p className="inventario-error">{error}</p>;
+  }
 
   return (
-    <div className="inventario-page">
-      <div className="inventario-header">
-        <div>
-          <h1 className="inventario-titulo">Inventario</h1>
-          <p className="inventario-subtitulo">{productos.length} productos</p>
+    <>
+      <div className="inventario-page">
+        <div className="inventario-header">
+          <div>
+            <h1 className="inventario-titulo">Inventario</h1>
+            <p className="inventario-subtitulo">{productos.length} productos</p>
+          </div>
         </div>
+
+        <input
+          className="inventario-buscador"
+          type="text"
+          placeholder="Buscar producto..."
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+        />
+
+        <InventarioTable
+          productos={productos}
+          busqueda={busqueda}
+          editando={editando}
+          guardando={guardando}
+          onEditar={handleEditar}
+          onGuardar={handleGuardar}
+          onCancelar={() => setEditando(null)}
+          onAbrirModal={handleAbrirModal}
+        />
       </div>
 
-      <input
-        className="inventario-buscador"
-        type="text"
-        placeholder="Buscar producto..."
-        value={busqueda}
-        onChange={(e) => setBusqueda(e.target.value)}
+      <AgregarStockModal
+        producto={modalStock}
+        cantidadAgregar={cantidadAgregar}
+        setCantidadAgregar={setCantidadAgregar}
+        onGuardar={handleAgregarStock}
+        onCerrar={() => setModalStock(null)}
+        isSaving={Boolean(guardando && modalStock?.id === guardando)}
       />
-
-      <div className="inventario-tabla-wrapper">
-        <table className="inventario-tabla">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Stock</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {productosFiltrados.map((p) => {
-              const estado = getEstado(p.stock);
-              const estaEditando = editando?.id === p.id;
-              const estaGuardando = guardando === p.id;
-
-              return (
-                <tr key={p.id}>
-                  <td className="td-nombre">{p.nombre}</td>
-                  <td>{formatCOP(p.precio)}</td>
-                  <td>
-                    {estaEditando ? (
-                      <input
-                        className="stock-input"
-                        type="number"
-                        min="0"
-                        value={editando.stock}
-                        onChange={(e) =>
-                          setEditando({ ...editando, stock: e.target.value })
-                        }
-                        autoFocus
-                      />
-                    ) : (
-                      p.stock
-                    )}
-                  </td>
-                  <td>
-                    <span className={`badge ${estado.clase}`}>
-                      {estado.label}
-                    </span>
-                  </td>
-                  <td>
-                    <div className="td-acciones">
-                      {estaEditando ? (
-                        <>
-                          <button
-                            className="btn-accion btn-guardar"
-                            onClick={() => handleGuardar(p.id)}
-                            disabled={estaGuardando}
-                          >
-                            {estaGuardando ? "Guardando..." : "✓ Guardar"}
-                          </button>
-                          <button
-                            className="btn-accion btn-cancelar"
-                            onClick={() => setEditando(null)}
-                          >
-                            Cancelar
-                          </button>
-                        </>
-                      ) : (
-                        <button
-                          className="btn-accion btn-editar"
-                          onClick={() =>
-                            setEditando({ id: p.id, stock: p.stock })
-                          }
-                        >
-                          ✏️ Editar stock
-                        </button>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    </>
   );
 }
 

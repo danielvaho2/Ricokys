@@ -19,3 +19,15 @@ export const actualizarStock = async ({ id, stock }) => {
     `);
   return result;
 };
+
+
+export const agregarStock = async ({ id, stock }) => {
+  const result = await pool
+    .request()
+    .input("id", sql.Int, id)
+    .input("stock", sql.Int, stock)
+    .query(`
+      UPDATE productos SET stock = stock + @stock WHERE id = @id
+    `);
+  return result;
+};
