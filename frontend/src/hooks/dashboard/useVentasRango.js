@@ -9,20 +9,67 @@ export const useVentasRango = () => {
   const [fechaFinal, setFechaFinal] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const buscarVentas = async () => {
-    if (!fechaInicio || !fechaFinal) return;
+  const buscarVentas = async (inicio, fin) => {
+  const fechaInicioBuscar = inicio || fechaInicio;
+  const fechaFinalBuscar = fin || fechaFinal;
 
-    setLoading(true);
+  if (!fechaInicioBuscar || !fechaFinalBuscar) return;
 
-    const [dataVentas, dataTotal] = await Promise.all([
-      getVentasPorRango({ fechaInicio, fechaFinal }),
-      getTotalPorRango({ fechaInicio, fechaFinal }),
-    ]);
+  setLoading(true);
 
-    setVentasRango(dataVentas);
-    setTotalRango(dataTotal);
+  const [dataVentas, dataTotal] = await Promise.all([
+    getVentasPorRango({
+      fechaInicio: fechaInicioBuscar,
+      fechaFinal: fechaFinalBuscar,
+    }),
+    getTotalPorRango({
+      fechaInicio: fechaInicioBuscar,
+      fechaFinal: fechaFinalBuscar,
+    }),
+  ]);
 
-    setLoading(false);
+  setVentasRango(dataVentas);
+  setTotalRango(dataTotal);
+
+  setLoading(false);
+};
+
+  const handleHoy = () => {
+    const hoy = new Date();
+    const inicioDia = new Date(hoy);
+    inicioDia.setDate(inicioDia.getDate() - 1);
+    const finDia = new Date();
+    const nuevaFechaInicio = inicioDia.toISOString().split("T")[0];
+    const nuevaFechaFinal = finDia.toISOString().split("T")[0];
+
+    setFechaInicio(nuevaFechaInicio);
+    setFechaFinal(nuevaFechaFinal);
+
+    buscarVentas(nuevaFechaInicio, nuevaFechaFinal);
+  };
+
+  const handleSemana = () => {
+    const hoy = new Date();
+    const inicioSemana = new Date(hoy.setDate(hoy.getDate() - 7))
+      .toISOString()
+      .split("T")[0];
+    const finSemana = new Date().toISOString().split("T")[0];
+    setFechaInicio(inicioSemana);
+    setFechaFinal(finSemana);
+    buscarVentas(inicioSemana, finSemana);
+  };
+
+  const handleMes = () => {
+    const hoy = new Date();
+    const inicioMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1)
+      .toISOString()
+      .split("T")[0];
+    const finMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0)
+      .toISOString()
+      .split("T")[0];
+    setFechaInicio(inicioMes);
+    setFechaFinal(finMes);
+    buscarVentas(inicioMes, finMes);
   };
 
   return {
@@ -33,6 +80,9 @@ export const useVentasRango = () => {
     setFechaInicio,
     setFechaFinal,
     buscarVentas,
+    handleHoy,
+    handleSemana,
+    handleMes,
     loading,
     limpiarFiltro: () => {
       setFechaFinal("");
@@ -40,5 +90,6 @@ export const useVentasRango = () => {
       setVentasRango([]);
       setTotalRango([]);
     },
+    
   };
 };

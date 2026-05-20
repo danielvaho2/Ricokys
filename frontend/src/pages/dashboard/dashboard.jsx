@@ -16,6 +16,9 @@ function Dashboard() {
     setFechaInicio,
     setFechaFinal,
     buscarVentas,
+    handleHoy,
+    handleSemana,
+    handleMes,
     loading,
     limpiarFiltro,
   } = useVentasRango();
@@ -78,6 +81,9 @@ function Dashboard() {
             setFechaFinal={setFechaFinal}
             buscarVentas={buscarVentas}
             limpiarFiltro={limpiarFiltro}
+            handleHoy={handleHoy}
+            handleSemana={handleSemana}
+            handleMes={handleMes}
           />
         )}
 
