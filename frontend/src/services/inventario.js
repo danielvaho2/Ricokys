@@ -1,9 +1,15 @@
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 export const getProductoStock = async () => {
   const res = await fetch(`${BASE_URL}/inventario/`);
   if (!res.ok) throw new Error("Error al obtener productos");
-  return res.json();
+
+  const data = await res.json();
+  if (!Array.isArray(data)) {
+    throw new Error("Respuesta inválida del inventario");
+  }
+
+  return data;
 };
 
 export const actualizarStock = async (id, stock) => {
@@ -25,4 +31,3 @@ export const agregarStock = async (id, stock) => {
   if (!res.ok) throw new Error("Error al agregar stock");
   return res.json();
 };
-

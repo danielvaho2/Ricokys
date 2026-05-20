@@ -3,7 +3,7 @@ import Pruebas from "./pages/pruebas/pruebas";
 import Ventas from './pages/Ventas/venta';
 import Dashboard from './pages/dashboard/dashboard';
 import Ficho from "./pages/fichos/ficho";
-import Inventario from "./pages/inventario/Inventario";
+import Inventario from "./pages/inventario/inventario";
 
 function App() {
   return (

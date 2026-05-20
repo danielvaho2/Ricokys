@@ -1,4 +1,4 @@
-import { formatCOP } from "../../../hooks/fromatCOP.js";
+import { formatCOP } from "../../hooks/fromatCOP.js";
 
 const getEstado = (stock) => {
   const stockNumber = Number(stock);
@@ -34,7 +34,7 @@ function InventarioTable({
   onAbrirModal,
 }) {
   const productosFiltrados = productos.filter((p) =>
-    p.nombre.toLowerCase().includes(busqueda.toLowerCase()),
+    String(p.nombre || "").toLowerCase().includes(busqueda.toLowerCase()),
   );
 
   return (
@@ -131,6 +131,13 @@ function InventarioTable({
               </tr>
             );
           })}
+          {productosFiltrados.length === 0 && (
+            <tr>
+              <td colSpan="5" className="inventario-sin-productos">
+                No se encontraron productos.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

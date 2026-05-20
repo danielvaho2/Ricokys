@@ -16,6 +16,10 @@ function Inventario() {
   const [cantidadAgregar, setCantidadAgregar] = useState(1);
 
   const handleGuardar = async (id) => {
+    if (!editando) {
+      return;
+    }
+
     const stock = Number(editando.stock);
 
     if (editando.stock === "" || isNaN(stock) || stock < 0) {
