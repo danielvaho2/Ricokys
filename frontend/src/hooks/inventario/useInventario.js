@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getProductos, actualizarStock } from "../../services/inventario";
+import { getProductoStock, actualizarStock } from "../../services/inventario";
 
 export function useInventario() {
   const [productos, setProductos] = useState([]);
@@ -10,7 +10,7 @@ export function useInventario() {
   useEffect(() => {
     const cargar = async () => {
       try {
-        const data = await getProductos();
+        const data = await getProductoStock();
         setProductos(data);
       } catch (err) {
         setError(err.message);

@@ -9,6 +9,7 @@ import detalleVentas from './routes/detalleVentaRoutes.js'
 import insertarRoutes from "./routes/crud.routes.js";
 import filtroRoutes from './routes/dashboard/filtroRoutes.js'
 import fichoRoutes from "./routes/fichos/fichoRoutes.js";
+import inventarioRoutes from "./routes/dashboard/inventarioRoutes.js";
  
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { pool } from "./db/db.js";
@@ -25,6 +26,7 @@ app.use("/turno", turnosRoutes);
 app.use("/ventas", ventasRoutes);
 app.use("/productos", insertarRoutes);
 app.use('/detalle',detalleVentas);
+app.use("/inventario", inventarioRoutes);
 app.get("/test", async (req, res) => {
   const result = await pool.request().query("SELECT * FROM Productos");
   res.json(result.recordset);

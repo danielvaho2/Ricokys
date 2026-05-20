@@ -28,14 +28,3 @@ export const getProductosInactivos = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-export const actualizarStock = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { stock } = req.body;
-    await productService.actualizarStock({ id, stock });
-    res.json({ message: 'Stock actualizado' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
