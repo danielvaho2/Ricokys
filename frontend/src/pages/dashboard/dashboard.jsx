@@ -34,6 +34,7 @@ function Dashboard() {
         <nav className="sidebar-nav">
           <button onClick={() => navigate("/")}>Dashboard</button>
           <button onClick={() => navigate("/inventario")}>Inventario</button>
+          <button onClick={() => navigate("/balance")}>Balance</button>
           <button onClick={() => window.open("/ventas")}>Ventas</button>
           <button onClick={() => window.open("/ficho")}>Fichos</button>
         </nav>

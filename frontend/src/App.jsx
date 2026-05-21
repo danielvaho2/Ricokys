@@ -4,6 +4,7 @@ import Ventas from "./pages/Ventas/venta";
 import Dashboard from "./pages/dashboard/dashboard";
 import Ficho from "./pages/fichos/ficho";
 import Inventario from "./pages/inventario/inventario";
+import Balance from "./pages/balance/balance";
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
         <Route path="/ventas" element={<Ventas />} />
         <Route path="/ficho" element={<Ficho />} />
         <Route path="/" element={<Dashboard />}>
-          <Route path="inventario" element={<Inventario />} />
+        <Route path="inventario" element={<Inventario />} />
+        <Route path="balance" element={<Balance />} />
         </Route>
       </Routes>
     </BrowserRouter>
