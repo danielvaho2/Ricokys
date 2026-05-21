@@ -7,29 +7,37 @@ import {
   getTotalVentasMes,
 } from "../../services/gastos";
 
-const MES_ACTUAL = new Date().getMonth();
-const AÑO_ACTUAL = new Date().getFullYear();
-
-const filtrarPorMes = (gastos, mes, año) =>
-  gastos.filter((g) => {
-    const fecha = new Date(g.fecha);
-    return fecha.getMonth() === mes && fecha.getFullYear() === año;
-  });
+const hoy = new Date();
 
 export function useGastos() {
-  const [todos, setTodos] = useState([]);
+  const [modo, setModo] = useState("diario");
+  const [mes, setMes] = useState(hoy.getMonth());
+  const [año, setAño] = useState(hoy.getFullYear());
+  const [dia, setDia] = useState(hoy.toISOString().split("T")[0]);
+
+  const [gastos, setGastos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [guardando, setGuardando] = useState(false);
   const [totalVentas, setTotalVentas] = useState(0);
-  const [mes, setMes] = useState(MES_ACTUAL);
-  const [año, setAño] = useState(AÑO_ACTUAL);
 
+  const getRango = () => {
+    if (modo === "diario") {
+      return { fechaInicio: `${dia}T00:00:00`, fechaFin: `${dia}T23:59:59` };
+    }
+    const inicio = new Date(año, mes, 1).toISOString().split("T")[0];
+    const fin = new Date(año, mes + 1, 0).toISOString().split("T")[0];
+    return { fechaInicio: `${inicio}T00:00:00`, fechaFin: `${fin}T23:59:59` };
+  };
+
+  // ── Carga gastos ──
   useEffect(() => {
     const cargar = async () => {
       try {
-        const data = await getGastos();
-        setTodos(data);
+        setLoading(true);
+        const { fechaInicio, fechaFin } = getRango();
+        const data = await getGastos(fechaInicio, fechaFin); // 👈 usa getGastos
+        setGastos(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -37,32 +45,33 @@ export function useGastos() {
       }
     };
     cargar();
-  }, []);
+  }, [modo, dia, mes, año]);
+
+  // ── Carga ventas del período ──
   useEffect(() => {
     const cargarVentas = async () => {
       try {
-        const data = await getTotalVentasMes(mes, año);
+        const { fechaInicio, fechaFin } = getRango();
+        const data = await getTotalVentasMes(fechaInicio, fechaFin);
         setTotalVentas(Number(data.total_ventas));
       } catch (err) {
         console.error(err);
       }
     };
     cargarVentas();
-  }, [mes, año]);
-  // Gastos filtrados por mes seleccionado
-  const gastos = filtrarPorMes(todos, mes, año);
+  }, [modo, dia, mes, año]); // 👈 mismo trigger, sin duplicado
 
-  // Métricas
   const totalGastos = gastos.reduce((acc, g) => acc + Number(g.monto), 0);
-
-  const totalGastosMes = filtrarPorMes(todos, mes, año).length;
+  const totalGastosMes = gastos.length;
 
   const agregarGasto = async (data) => {
     try {
       setGuardando(true);
       const { id } = await createGasto(data);
-      const nuevo = { ...data, id, fecha: new Date().toISOString() };
-      setTodos((prev) => [nuevo, ...prev]);
+      setGastos((prev) => [
+        { ...data, id, fecha: new Date().toISOString() },
+        ...prev,
+      ]);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -73,7 +82,7 @@ export function useGastos() {
   const eliminarGasto = async (id) => {
     try {
       await deleteGasto(id);
-      setTodos((prev) => prev.filter((g) => g.id !== id));
+      setGastos((prev) => prev.filter((g) => g.id !== id));
     } catch (err) {
       setError(err.message);
     }
@@ -83,7 +92,7 @@ export function useGastos() {
     try {
       setGuardando(true);
       await updateGasto(id, data);
-      setTodos((prev) =>
+      setGastos((prev) =>
         prev.map((g) => (g.id === id ? { ...g, ...data } : g)),
       );
     } catch (err) {
@@ -96,15 +105,19 @@ export function useGastos() {
   return {
     gastos,
     totalGastos,
+    totalGastosMes,
     totalVentas,
     loading,
     error,
     guardando,
+    modo,
+    setModo,
     mes,
-    año,
-    totalGastosMes,
     setMes,
+    año,
     setAño,
+    dia,
+    setDia,
     agregarGasto,
     eliminarGasto,
     editarGasto,

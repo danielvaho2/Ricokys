@@ -63,9 +63,15 @@
   font-weight: 600;
 }
 
-.verde { color: #0f6e56; }
-.rojo  { color: #a32d2d; }
-.azul  { color: #185fa5; }
+.verde {
+  color: #0f6e56;
+}
+.rojo {
+  color: #a32d2d;
+}
+.azul {
+  color: #185fa5;
+}
 
 /* ── Sección ── */
 .balance-seccion__titulo {
@@ -107,11 +113,23 @@
   color: #111827;
 }
 
-.balance-tabla tr:last-child td { border-bottom: none; }
-.balance-tabla tr:hover td { background: #f9fafb; }
-.td-nombre { font-weight: 500; }
-.td-descripcion { color: #6b7280; font-size: 12px; }
-.monto-neg { color: #a32d2d; font-weight: 600; }
+.balance-tabla tr:last-child td {
+  border-bottom: none;
+}
+.balance-tabla tr:hover td {
+  background: #f9fafb;
+}
+.td-nombre {
+  font-weight: 500;
+}
+.td-descripcion {
+  color: #6b7280;
+  font-size: 12px;
+}
+.monto-neg {
+  color: #a32d2d;
+  font-weight: 600;
+}
 
 .badge {
   display: inline-block;
@@ -121,11 +139,26 @@
   border-radius: 20px;
 }
 
-.badge-insumos  { background: #e1f5ee; color: #085041; }
-.badge-servicios { background: #e6f1fb; color: #0c447c; }
-.badge-arriendo { background: #faeeda; color: #633806; }
-.badge-personal { background: #fbeaf0; color: #72243e; }
-.badge-varios   { background: #f1efe8; color: #444441; }
+.badge-insumos {
+  background: #e1f5ee;
+  color: #085041;
+}
+.badge-servicios {
+  background: #e6f1fb;
+  color: #0c447c;
+}
+.badge-arriendo {
+  background: #faeeda;
+  color: #633806;
+}
+.badge-personal {
+  background: #fbeaf0;
+  color: #72243e;
+}
+.badge-varios {
+  background: #f1efe8;
+  color: #444441;
+}
 
 .btn-eliminar {
   background: transparent;
@@ -136,7 +169,9 @@
   transition: opacity 0.15s;
 }
 
-.btn-eliminar:hover { opacity: 1; }
+.btn-eliminar:hover {
+  opacity: 1;
+}
 
 /* ── Formulario ── */
 .balance-form {
@@ -173,21 +208,71 @@
   white-space: nowrap;
 }
 
-.balance-form__btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.balance-form__btn:hover:not(:disabled) { background: #1f2937; }
+.balance-form__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.balance-form__btn:hover:not(:disabled) {
+  background: #1f2937;
+}
 
 /* ── Estados ── */
-.balance-cargando, .balance-sin-datos {
+.balance-cargando,
+.balance-sin-datos {
   font-size: 13px;
   color: #9ca3af;
   text-align: center;
   padding: 24px 0;
 }
 
-.balance-error { color: #dc2626; font-size: 13px; text-align: center; }
+.balance-error {
+  color: #dc2626;
+  font-size: 13px;
+  text-align: center;
+}
+.balance-controles {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.balance-toggle {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #111827;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.balance-toggle:hover {
+  background: #1f2937;
+}
+
+.balance-input-fecha {
+  font-size: 13px;
+  padding: 7px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  color: #111827;
+}
 
 @media (max-width: 768px) {
-  .balance-page    { padding: 16px; }
-  .balance-header  { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .balance-form    { grid-template-columns: 1fr; }
+  .balance-page {
+    padding: 16px;
+  }
+  .balance-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .balance-form {
+    grid-template-columns: 1fr;
+  }
 }

@@ -2,7 +2,8 @@ import * as gastosService from "../../services/gastos/gastosService.js";
 
 export const getGastos = async (req, res) => {
   try {
-    const gastos = await gastosService.getGastos();
+    const { fechaInicio, fechaFin } = req.query;
+    const gastos = await gastosService.getGastos(fechaInicio, fechaFin);
     res.json(gastos);
   } catch (err) {
     console.error("Error al obtener gastos:", err);

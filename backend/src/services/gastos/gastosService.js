@@ -1,10 +1,18 @@
 import sql from "mssql";
 import { pool } from "../../db/db.js";
 
-export const getGastos = async () => {
-    const result = await pool.request().query("SELECT * FROM gastos ORDER BY fecha DESC");
-    return result.recordset;
-}
+export const getGastos = async (fechaInicio, fechaFin) => {
+  const result = await pool
+    .request()
+    .input("fechaInicio", sql.DateTime, fechaInicio)
+    .input("fechaFin", sql.DateTime, fechaFin)
+    .query(`
+      SELECT * FROM gastos
+      WHERE fecha >= @fechaInicio AND fecha <= @fechaFin
+      ORDER BY fecha DESC
+    `);
+  return result.recordset;
+};
 
 export const createGasto = async ({nombre, descripcion, monto, categoria}) => {
 

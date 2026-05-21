@@ -1,7 +1,9 @@
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export const getGastos = async () => {
-  const res = await fetch(`${BASE_URL}/gastos`);
+export const getGastos = async (fechaInicio, fechaFin) => {
+  const res = await fetch(
+    `${BASE_URL}/gastos?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`
+  );
   if (!res.ok) throw new Error("Error al obtener gastos");
   return res.json();
 };
@@ -34,8 +36,10 @@ export const updateGasto = async (id, { nombre, descripcion, monto, categoria })
   return res.json();
 };
 
-export const getTotalVentasMes = async (mes, año) => {
-  const res = await fetch(`${BASE_URL}/gastos/ventas-mes?mes=${mes + 1}&año=${año}`);
-  if (!res.ok) throw new Error("Error al obtener ventas del mes");
+export const getTotalVentasMes = async (fechaInicio, fechaFin) => {
+  const res = await fetch(
+    `${BASE_URL}/gastos/ventas-mes?fechainicio=${fechaInicio}&fechafinal=${fechaFin}`
+  );
+  if (!res.ok) throw new Error("Error al obtener ventas");
   return res.json();
 };
