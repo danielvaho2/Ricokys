@@ -32,9 +32,12 @@ function InventarioTable({
   onGuardar,
   onCancelar,
   onAbrirModal,
+  onDescontar,
 }) {
   const productosFiltrados = productos.filter((p) =>
-    String(p.nombre || "").toLowerCase().includes(busqueda.toLowerCase()),
+    String(p.nombre || "")
+      .toLowerCase()
+      .includes(busqueda.toLowerCase()),
   );
 
   return (
@@ -123,6 +126,13 @@ function InventarioTable({
                           disabled={estaGuardando}
                         >
                           ➕ Agregar stock
+                        </button>
+                        <button
+                          className="btn-accion btn-descontar"
+                          onClick={() => onDescontar(p.id)}
+                          disabled={estaGuardando || p.stock === 0} 
+                        >
+                          ➖ Descontar
                         </button>
                       </>
                     )}

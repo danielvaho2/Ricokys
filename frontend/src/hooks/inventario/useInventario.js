@@ -86,6 +86,22 @@ export function useInventario() {
     }
   };
 
+  const descontarStock = async (id) => {
+    try {
+      setGuardando(id);
+      await agregarStock(id, -1); 
+      setProductos((prev) =>
+        prev.map((p) =>
+          p.id === id ? { ...p, stock: Math.max(0, p.stock - 1) } : p,
+        ),
+      );
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setGuardando(null);
+    }
+  };
+
   return {
     productos,
     loading,
@@ -93,5 +109,6 @@ export function useInventario() {
     guardando,
     editarStock,
     agregaStock,
+    descontarStock,
   };
 }

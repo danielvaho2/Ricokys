@@ -5,7 +5,7 @@ import InventarioTable from "../../components/inventario/InventarioTable.jsx";
 import AgregarStockModal from "../../components/inventario/AgregarStockModal.jsx";
 
 function Inventario() {
-  const { productos, loading, error, guardando, editarStock, agregaStock } =
+  const { productos, loading, error, guardando, editarStock, agregaStock, descontarStock } =
     useInventario();
 
   const [editando, setEditando] = useState(null);
@@ -88,6 +88,7 @@ function Inventario() {
           onGuardar={handleGuardar}
           onCancelar={() => setEditando(null)}
           onAbrirModal={handleAbrirModal}
+          onDescontar={descontarStock}
         />
       </div>
 
