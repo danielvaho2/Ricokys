@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   getGastos,
   createGasto,
   deleteGasto,
   updateGasto,
   getTotalVentasMes,
+  getVentasPorDia
 } from "../../services/gastos";
 
 const hoy = new Date();
@@ -14,6 +15,7 @@ export function useGastos() {
   const [mes, setMes] = useState(hoy.getMonth());
   const [año, setAño] = useState(hoy.getFullYear());
   const [dia, setDia] = useState(hoy.toISOString().split("T")[0]);
+  const [datosGrafica, setDatosGrafica] = useState([]);
 
   const [gastos, setGastos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,14 +23,23 @@ export function useGastos() {
   const [guardando, setGuardando] = useState(false);
   const [totalVentas, setTotalVentas] = useState(0);
 
-  const getRango = () => {
+  const getRango = useCallback(() => {
     if (modo === "diario") {
-      return { fechaInicio: `${dia}T00:00:00`, fechaFin: `${dia}T23:59:59` };
+      return {
+        fechaInicio: `${dia}T00:00:00`,
+        fechaFin: `${dia}T23:59:59`,
+      };
     }
+
     const inicio = new Date(año, mes, 1).toISOString().split("T")[0];
+
     const fin = new Date(año, mes + 1, 0).toISOString().split("T")[0];
-    return { fechaInicio: `${inicio}T00:00:00`, fechaFin: `${fin}T23:59:59` };
-  };
+
+    return {
+      fechaInicio: `${inicio}T00:00:00`,
+      fechaFin: `${fin}T23:59:59`,
+    };
+  }, [modo, dia, mes, año]);
 
   // ── Carga gastos ──
   useEffect(() => {
@@ -36,7 +47,7 @@ export function useGastos() {
       try {
         setLoading(true);
         const { fechaInicio, fechaFin } = getRango();
-        const data = await getGastos(fechaInicio, fechaFin); // 👈 usa getGastos
+        const data = await getGastos(fechaInicio, fechaFin);
         setGastos(data);
       } catch (err) {
         setError(err.message);
@@ -44,8 +55,9 @@ export function useGastos() {
         setLoading(false);
       }
     };
+
     cargar();
-  }, [modo, dia, mes, año]);
+  }, [getRango]);
 
   // ── Carga ventas del período ──
   useEffect(() => {
@@ -58,8 +70,52 @@ export function useGastos() {
         console.error(err);
       }
     };
+
     cargarVentas();
-  }, [modo, dia, mes, año]); // 👈 mismo trigger, sin duplicado
+  }, [getRango]);
+
+  useEffect(() => {
+  if (modo !== "mensual") return;
+
+  const cargarGrafica = async () => {
+    try {
+      const { fechaInicio, fechaFin } = getRango();
+      const [ventas, gastosData] = await Promise.all([
+        getVentasPorDia(fechaInicio, fechaFin),
+        getGastos(fechaInicio, fechaFin),
+      ]);
+
+      // Agrupa gastos por día
+      const gastosPorDia = {};
+      gastosData.forEach((g) => {
+        const dia = g.fecha.split("T")[0];
+        gastosPorDia[dia] = (gastosPorDia[dia] || 0) + Number(g.monto);
+      });
+
+      // Une ventas y gastos por día
+      const dias = new Set([
+        ...ventas.map((v) => v.dia.split("T")[0]),
+        ...Object.keys(gastosPorDia),
+      ]);
+
+      const datos = Array.from(dias).sort().map((dia) => {
+        const ventasDia  = ventas.find((v) => v.dia.split("T")[0] === dia)?.ventas || 0;
+        const gastosDia  = gastosPorDia[dia] || 0;
+        return {
+          dia: dia.slice(5), // "05-16" en vez de "2026-05-16"
+          ventas:   Number(ventasDia),
+          gastos:   gastosDia,
+          ganancia: Number(ventasDia) - gastosDia,
+        };
+      });
+
+      setDatosGrafica(datos);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  cargarGrafica();
+}, [getRango],modo);
 
   const totalGastos = gastos.reduce((acc, g) => acc + Number(g.monto), 0);
   const totalGastosMes = gastos.length;
@@ -111,6 +167,7 @@ export function useGastos() {
     error,
     guardando,
     modo,
+    datosGrafica,
     setModo,
     mes,
     setMes,

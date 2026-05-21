@@ -43,3 +43,11 @@ export const getTotalVentasMes = async (fechaInicio, fechaFin) => {
   if (!res.ok) throw new Error("Error al obtener ventas");
   return res.json();
 };
+
+export const getVentasPorDia = async (fechaInicio, fechaFin) => {
+  const res = await fetch(
+    `${BASE_URL}/gastos/ventas-por-dia?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`
+  );
+  if (!res.ok) throw new Error("Error al obtener ventas por día");
+  return res.json();
+};

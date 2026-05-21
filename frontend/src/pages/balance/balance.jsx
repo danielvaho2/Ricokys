@@ -3,6 +3,7 @@ import { useGastos } from "../../hooks/gastos/useGastos";
 import BalanceMetricas from "../../components/balance/BalanceMetricas";
 import BalanceTabla from "../../components/balance/BalanceTabla";
 import BalanceForm from "../../components/balance/BalanceForm";
+import BalanceGrafica from "../../components/balance/BalanceGrafica";
 
 const MESES = [
   "Enero",
@@ -29,6 +30,7 @@ function Balance() {
     error,
     guardando,
     modo,
+    datosGrafica,
     setModo,
     mes,
     setMes,
@@ -111,8 +113,13 @@ function Balance() {
         <h2 className="balance-seccion__titulo">
           Gastos {modo === "diario" ? `del ${dia}` : `de ${MESES[mes]} ${año}`}
         </h2>
-        <BalanceTabla gastos={gastos} onEliminar={eliminarGasto} />
+        <BalanceTabla
+          key={`${modo}-${mes}-${año}-${dia}`}
+          gastos={gastos}
+          onEliminar={eliminarGasto}
+        />
         <BalanceForm onAgregar={agregarGasto} guardando={guardando} />
+        {modo === "mensual" && <BalanceGrafica datos={datosGrafica} />}
       </div>
     </div>
   );

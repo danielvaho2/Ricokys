@@ -1,0 +1,88 @@
+.balance-grafica-wrapper {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  margin-top: 1.5rem;
+}
+
+.balance-seccion__titulo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.balance-sin-datos {
+  width: 100%;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 14px;
+  background: #f9fafb;
+  color: #6b7280;
+  font-size: 0.95rem;
+  border: 1px dashed #d1d5db;
+}
+
+/* Recharts tooltip */
+.recharts-tooltip-wrapper {
+  outline: none;
+}
+
+.recharts-default-tooltip {
+  background: #111827 !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 10px 14px !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,.18);
+}
+
+.recharts-tooltip-label {
+  color: #f9fafb !important;
+  font-weight: 600;
+  margin-bottom: .4rem !important;
+}
+
+.recharts-tooltip-item {
+  color: #e5e7eb !important;
+  font-size: .85rem !important;
+}
+
+/* Leyenda */
+.recharts-legend-wrapper {
+  padding-top: 10px;
+}
+
+.recharts-legend-item-text {
+  color: #4b5563 !important;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Ejes */
+.recharts-cartesian-axis-tick-value {
+  fill: #9ca3af;
+  font-size: 11px;
+}
+
+/* Grid */
+.recharts-cartesian-grid line {
+  stroke: #f3f4f6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .balance-grafica-wrapper {
+    padding: 1rem;
+    border-radius: 14px;
+  }
+
+  .balance-seccion__titulo {
+    font-size: 1rem;
+  }
+}

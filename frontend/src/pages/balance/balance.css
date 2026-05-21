@@ -119,6 +119,32 @@
 .balance-tabla tr:hover td {
   background: #f9fafb;
 }
+.balance-tabla-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  margin-bottom: 12px;
+}
+.btn-mostrar-mas {
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  background: #111827;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-mostrar-mas:hover {
+  background: #1f2937;
+}
 .td-nombre {
   font-weight: 500;
 }

@@ -15,3 +15,20 @@ export const getTotalVentasMes = async (fechainicio, fechafinal) => {
     `);
   return result.recordset[0];
 };
+
+export const getVentasGastosPorDia = async (fechaInicio, fechaFin) => {
+  const result = await pool
+    .request()
+    .input("fechaInicio", sql.DateTime, fechaInicio)
+    .input("fechaFin",    sql.DateTime, fechaFin)
+    .query(`
+      SELECT
+        CAST(fecha AS DATE) AS dia,
+        SUM(total)          AS ventas
+      FROM ventas
+      WHERE fecha >= @fechaInicio AND fecha <= @fechaFin
+      GROUP BY CAST(fecha AS DATE)
+      ORDER BY dia
+    `);
+  return result.recordset;
+};
