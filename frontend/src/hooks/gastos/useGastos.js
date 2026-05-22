@@ -5,16 +5,19 @@ import {
   deleteGasto,
   updateGasto,
   getTotalVentasMes,
-  getVentasPorDia
+  getVentasPorDia,
 } from "../../services/gastos";
 
 const hoy = new Date();
 
+const formatDateLocal = (date) => {
+  return date.toLocaleDateString("en-CA");
+};
 export function useGastos() {
   const [modo, setModo] = useState("diario");
   const [mes, setMes] = useState(hoy.getMonth());
   const [año, setAño] = useState(hoy.getFullYear());
-  const [dia, setDia] = useState(hoy.toISOString().split("T")[0]);
+  const [dia, setDia] = useState(formatDateLocal(hoy));
   const [datosGrafica, setDatosGrafica] = useState([]);
 
   const [gastos, setGastos] = useState([]);
@@ -31,9 +34,9 @@ export function useGastos() {
       };
     }
 
-    const inicio = new Date(año, mes, 1).toISOString().split("T")[0];
+    const inicio = formatDateLocal(new Date(año, mes, 1));
 
-    const fin = new Date(año, mes + 1, 0).toISOString().split("T")[0];
+    const fin = formatDateLocal(new Date(año, mes + 1, 0));
 
     return {
       fechaInicio: `${inicio}T00:00:00`,
@@ -74,48 +77,55 @@ export function useGastos() {
     cargarVentas();
   }, [getRango]);
 
-  useEffect(() => {
-  if (modo !== "mensual") return;
+  useEffect(
+    () => {
+      if (modo !== "mensual") return;
 
-  const cargarGrafica = async () => {
-    try {
-      const { fechaInicio, fechaFin } = getRango();
-      const [ventas, gastosData] = await Promise.all([
-        getVentasPorDia(fechaInicio, fechaFin),
-        getGastos(fechaInicio, fechaFin),
-      ]);
+      const cargarGrafica = async () => {
+        try {
+          const { fechaInicio, fechaFin } = getRango();
+          const [ventas, gastosData] = await Promise.all([
+            getVentasPorDia(fechaInicio, fechaFin),
+            getGastos(fechaInicio, fechaFin),
+          ]);
 
-      // Agrupa gastos por día
-      const gastosPorDia = {};
-      gastosData.forEach((g) => {
-        const dia = g.fecha.split("T")[0];
-        gastosPorDia[dia] = (gastosPorDia[dia] || 0) + Number(g.monto);
-      });
+          // Agrupa gastos por día
+          const gastosPorDia = {};
+          gastosData.forEach((g) => {
+            const dia = g.fecha.split("T")[0];
+            gastosPorDia[dia] = (gastosPorDia[dia] || 0) + Number(g.monto);
+          });
 
-      // Une ventas y gastos por día
-      const dias = new Set([
-        ...ventas.map((v) => v.dia.split("T")[0]),
-        ...Object.keys(gastosPorDia),
-      ]);
+          // Une ventas y gastos por día
+          const dias = new Set([
+            ...ventas.map((v) => v.dia.split("T")[0]),
+            ...Object.keys(gastosPorDia),
+          ]);
 
-      const datos = Array.from(dias).sort().map((dia) => {
-        const ventasDia  = ventas.find((v) => v.dia.split("T")[0] === dia)?.ventas || 0;
-        const gastosDia  = gastosPorDia[dia] || 0;
-        return {
-          dia: dia.slice(5), // "05-16" en vez de "2026-05-16"
-          ventas:   Number(ventasDia),
-          gastos:   gastosDia,
-          ganancia: Number(ventasDia) - gastosDia,
-        };
-      });
+          const datos = Array.from(dias)
+            .sort()
+            .map((dia) => {
+              const ventasDia =
+                ventas.find((v) => v.dia.split("T")[0] === dia)?.ventas || 0;
+              const gastosDia = gastosPorDia[dia] || 0;
+              return {
+                dia: dia.slice(5), // "05-16" en vez de "2026-05-16"
+                ventas: Number(ventasDia),
+                gastos: gastosDia,
+                ganancia: Number(ventasDia) - gastosDia,
+              };
+            });
 
-      setDatosGrafica(datos);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  cargarGrafica();
-}, [getRango],modo);
+          setDatosGrafica(datos);
+        } catch (err) {
+          console.error(err);
+        }
+      };
+      cargarGrafica();
+    },
+    [getRango, modo],
+    
+  );
 
   const totalGastos = gastos.reduce((acc, g) => acc + Number(g.monto), 0);
   const totalGastosMes = gastos.length;
