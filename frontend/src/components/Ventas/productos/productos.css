@@ -134,6 +134,39 @@ overflow-y: auto;
   letter-spacing: 2px;
 }
 
+.contenedor-productos-producto {
+  position: relative;
+  overflow: hidden;
+}
+
+.producto-deshabilitado {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* BANDA DIAGONAL */
+.ribbon-disabled {
+  position: absolute;
+  top: 20px;
+  left: -45px;
+  background: #ff3b3b;
+  color: white;
+  padding: 5px 50px;
+  transform: rotate(-45deg);
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* STOCK BAJO */
+.stock-alerta {
+  background-color: red;
+  border-radius: 5px;
+  padding: 2px 5px;
+  color: white;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);

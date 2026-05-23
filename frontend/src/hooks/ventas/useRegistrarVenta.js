@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createVenta } from "../../services/api.js";
 
-export function useRegistrarVenta({ carrito, vaciar }) {
+export function useRegistrarVenta({ carrito, vaciar, onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [ventaExitosa, setVentaExitosa] = useState(null);
@@ -17,6 +17,7 @@ export function useRegistrarVenta({ carrito, vaciar }) {
       const venta = await createVenta({ productos, metodo_pago });
       setVentaExitosa(venta);
       vaciar();
+      if (typeof onSuccess === "function") onSuccess();
     } catch (err) {
       setError(err.message);
     } finally {

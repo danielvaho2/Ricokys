@@ -12,10 +12,13 @@ import Turno from "../../components/Ventas/turno/turno";
 import RegistrarVenta from "../../components/Ventas/registrarVenta/registrarVenta";
 
 function Ventas() {
-
   const [vistaMobile, setVistaMobile] = useState("productos");
 
-  const { productos, loading: loadingProductos } = useProductos();
+  const {
+    productos,
+    loading: loadingProductos,
+    refresh: refreshProductos,
+  } = useProductos();
 
   const {
     carrito,
@@ -37,20 +40,13 @@ function Ventas() {
     limpiarResumen,
   } = useTurno();
 
-  const {
-    registrar,
-    loadingVenta,
-    errorVenta,
-    ventaExitosa,
-    cerrarModal,
-  } = useRegistrarVenta({ carrito, vaciar });
+  const { registrar, loadingVenta, errorVenta, ventaExitosa, cerrarModal } =
+    useRegistrarVenta({ carrito, vaciar, onSuccess: refreshProductos });
 
   return (
     <div className="contenedor-ventas">
-
       {/* NAV MOBILE */}
       <div className="mobile-nav">
-
         <button
           className={vistaMobile === "productos" ? "activo" : ""}
           onClick={() => setVistaMobile("productos")}
@@ -64,7 +60,6 @@ function Ventas() {
         >
           Carrito ({carrito.length})
         </button>
-
       </div>
 
       {/* PRODUCTOS */}
@@ -87,7 +82,6 @@ function Ventas() {
         }`}
       >
         <div className="contenedor-sidebar">
-
           <Carrito
             carrito={carrito}
             eliminarDelCarrito={eliminarDelCarrito}
@@ -115,10 +109,8 @@ function Ventas() {
             resumenTurno={resumenTurno}
             limpiarResumen={limpiarResumen}
           />
-
         </div>
       </div>
-
     </div>
   );
 }
