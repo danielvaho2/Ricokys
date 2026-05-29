@@ -1,14 +1,22 @@
 import { formatCOP } from "../../hooks/fromatCOP.js";
 
-function BalanceMetricas({ totalVentas, totalGastos, totalGastosMes, modo }) {
-  const neto = totalVentas - totalGastos;
+function BalanceMetricas({ totalVentas,totalGastos, totalGastosMes, modo }) {
+  const neto = totalVentas.total_ventas - totalGastos;
   const esDiario = modo === "diario";
 
   return (
     <div className="balance-metricas">
       <div className="balance-metrica">
         <label>{esDiario ? "Ventas del día" : "Ventas del mes"}</label>
-        <span className="balance-metrica__valor verde">{formatCOP(totalVentas)}</span>
+        <span className="balance-metrica__valor verde">{formatCOP(totalVentas.total_ventas)}</span>
+      </div>
+      <div className="balance-metrica">
+        <label>{esDiario ? "Total en transferencia" : "Total en transferencia"}</label>
+        <span className="balance-metrica__valor verde">{formatCOP(totalVentas.transferencia)}</span>
+      </div>
+      <div className="balance-metrica">
+        <label>{esDiario ? "Total en efectivo" : "Total en efectivo"}</label>
+        <span className="balance-metrica__valor verde">{formatCOP(totalVentas.efectivo)}</span>
       </div>
       <div className="balance-metrica">
         <label>{esDiario ? "Gastos del día" : "Gastos del mes"}</label>

@@ -12,6 +12,8 @@ function Resultados({ ventasRango, totalRango }) {
   const { abierto, detalle, cargando, toggleDetalle } = useDetalleVenta();
 
   const granTotal = Number(totalRango?.gran_total_ventas) || 0;
+  const granTotalEfectivo = Number(totalRango?.gran_total_efectivo) || 0;
+  const granTotalTransferencia = Number(totalRango?.gran_total_transferencia) || 0;
   const cantidadVentas = ventasRango.reduce(
     (acc, venta) => acc + Number(venta.cantidad_ventas),
     0,
@@ -35,6 +37,18 @@ function Resultados({ ventasRango, totalRango }) {
                 <span className="resultado-fecha">{fecha}</span>
               </div>
 
+              <div className="resultado-ventas-bloque">
+                <span className="resultado-ventas-label">Dinero en efectivo</span>
+                <span className="resultado-ventas">
+                  {venta.total_efectivo? formatCOP(venta.total_efectivo) : formatCOP(0)}
+                </span>
+              </div>
+              <div className="resultado-ventas-bloque">
+                <span className="resultado-ventas-label">Dinero en transferencia</span>
+                <span className="resultado-ventas">
+                  {venta.total_transferencia? formatCOP(venta.total_transferencia) : formatCOP(0)}
+                </span>
+              </div>
               <div className="resultado-ventas-bloque">
                 <span className="resultado-ventas-label">ventas</span>
                 <span className="resultado-ventas">
@@ -68,6 +82,14 @@ function Resultados({ ventasRango, totalRango }) {
       )}
 
       <div className="total-general">
+        <p>
+          💰 Total efectivo <br />
+          {formatCOP(granTotalEfectivo)}
+        </p>
+        <p>
+          💰 Total transferencia <br />
+          {formatCOP(granTotalTransferencia)}
+        </p>
         <p>
           💰 Total vendido <br />
           {formatCOP(granTotal)}

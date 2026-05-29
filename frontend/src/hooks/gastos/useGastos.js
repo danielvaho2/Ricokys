@@ -24,7 +24,12 @@ export function useGastos() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [guardando, setGuardando] = useState(false);
-  const [totalVentas, setTotalVentas] = useState(0);
+  const [totalVentas, setTotalVentas] = useState({
+    total_ventas: 0,
+    efectivo: 0,
+    transferencia: 0,
+    cantidad_ventas: 0,
+  });
 
   const getRango = useCallback(() => {
     if (modo === "diario") {
@@ -68,7 +73,7 @@ export function useGastos() {
       try {
         const { fechaInicio, fechaFin } = getRango();
         const data = await getTotalVentasMes(fechaInicio, fechaFin);
-        setTotalVentas(Number(data.total_ventas));
+        setTotalVentas(data);
       } catch (err) {
         console.error(err);
       }
@@ -77,55 +82,51 @@ export function useGastos() {
     cargarVentas();
   }, [getRango]);
 
-  useEffect(
-    () => {
-      if (modo !== "mensual") return;
+  useEffect(() => {
+    if (modo !== "mensual") return;
 
-      const cargarGrafica = async () => {
-        try {
-          const { fechaInicio, fechaFin } = getRango();
-          const [ventas, gastosData] = await Promise.all([
-            getVentasPorDia(fechaInicio, fechaFin),
-            getGastos(fechaInicio, fechaFin),
-          ]);
+    const cargarGrafica = async () => {
+      try {
+        const { fechaInicio, fechaFin } = getRango();
+        const [ventas, gastosData] = await Promise.all([
+          getVentasPorDia(fechaInicio, fechaFin),
+          getGastos(fechaInicio, fechaFin),
+        ]);
 
-          // Agrupa gastos por día
-          const gastosPorDia = {};
-          gastosData.forEach((g) => {
-            const dia = g.fecha.split("T")[0];
-            gastosPorDia[dia] = (gastosPorDia[dia] || 0) + Number(g.monto);
+        // Agrupa gastos por día
+        const gastosPorDia = {};
+        gastosData.forEach((g) => {
+          const dia = g.fecha.split("T")[0];
+          gastosPorDia[dia] = (gastosPorDia[dia] || 0) + Number(g.monto);
+        });
+
+        // Une ventas y gastos por día
+        const dias = new Set([
+          ...ventas.map((v) => v.dia.split("T")[0]),
+          ...Object.keys(gastosPorDia),
+        ]);
+
+        const datos = Array.from(dias)
+          .sort()
+          .map((dia) => {
+            const ventasDia =
+              ventas.find((v) => v.dia.split("T")[0] === dia)?.ventas || 0;
+            const gastosDia = gastosPorDia[dia] || 0;
+            return {
+              dia: dia.slice(5), // "05-16" en vez de "2026-05-16"
+              ventas: Number(ventasDia),
+              gastos: gastosDia,
+              ganancia: Number(ventasDia) - gastosDia,
+            };
           });
 
-          // Une ventas y gastos por día
-          const dias = new Set([
-            ...ventas.map((v) => v.dia.split("T")[0]),
-            ...Object.keys(gastosPorDia),
-          ]);
-
-          const datos = Array.from(dias)
-            .sort()
-            .map((dia) => {
-              const ventasDia =
-                ventas.find((v) => v.dia.split("T")[0] === dia)?.ventas || 0;
-              const gastosDia = gastosPorDia[dia] || 0;
-              return {
-                dia: dia.slice(5), // "05-16" en vez de "2026-05-16"
-                ventas: Number(ventasDia),
-                gastos: gastosDia,
-                ganancia: Number(ventasDia) - gastosDia,
-              };
-            });
-
-          setDatosGrafica(datos);
-        } catch (err) {
-          console.error(err);
-        }
-      };
-      cargarGrafica();
-    },
-    [getRango, modo],
-    
-  );
+        setDatosGrafica(datos);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    cargarGrafica();
+  }, [getRango, modo]);
 
   const totalGastos = gastos.reduce((acc, g) => acc + Number(g.monto), 0);
   const totalGastosMes = gastos.length;

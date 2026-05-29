@@ -9,7 +9,18 @@ export const getTotalVentasMes = async (fechainicio, fechafinal) => {
     .query(`
       SELECT 
         ISNULL(SUM(total), 0)  AS total_ventas,
-        COUNT(*)               AS cantidad_ventas
+        
+         SUM(CASE
+        WHEN metodo_pago = 'Efectivo'
+        THEN total
+        ELSE 0
+    END) AS efectivo,
+    SUM(CASE
+        WHEN metodo_pago = 'Transferencia'
+        THEN total
+        ELSE 0
+    END) AS transferencia,
+    COUNT(*)               AS cantidad_ventas
       FROM ventas
       WHERE fecha >= @fechainicio AND fecha <= @fechafinal
     `);
